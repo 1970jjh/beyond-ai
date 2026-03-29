@@ -4,6 +4,7 @@ import { Plus, Users, Clock, Target, Copy, Check } from 'lucide-react'
 import clsx from 'clsx'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { useRoomStore } from '../stores/roomStore'
 
 const QUESTS = [
   { id: 'q1', month: 1, title: '시장 분석 리포트' },
@@ -38,6 +39,10 @@ interface FormState {
 }
 
 export function RoomCreatePage() {
+  const createRoom = useRoomStore((s) => s.createRoom)
+  const currentRoom = useRoomStore((s) => s.currentRoom)
+  const isLoading = useRoomStore((s) => s.isLoading)
+
   const [form, setForm] = useState<FormState>({
     roomName: '',
     teamCount: 4,
@@ -46,24 +51,30 @@ export function RoomCreatePage() {
     timeLimit: 30,
   })
   const [created, setCreated] = useState(false)
-  const [roomCode, setRoomCode] = useState('')
   const [copied, setCopied] = useState(false)
 
-  const handleCreate = () => {
-    const code = Math.random().toString(36).substring(2, 8).toUpperCase()
-    setRoomCode(code)
-    setCreated(true)
+  const handleCreate = async () => {
+    const room = await createRoom({
+      name: form.roomName,
+      industryType: form.selectedQuest ?? '',
+      teamCount: form.teamCount,
+      maxMembersPerTeam: form.maxMembers,
+    })
+    if (room) {
+      setCreated(true)
+    }
   }
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(roomCode)
+    if (!currentRoom) return
+    navigator.clipboard.writeText(currentRoom.code)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
 
   const isValid = form.roomName.trim() !== '' && form.selectedQuest !== null
 
-  if (created) {
+  if (created && currentRoom) {
     return (
       <div className="space-y-8">
         <div>
@@ -77,7 +88,7 @@ export function RoomCreatePage() {
         >
           <Card variant="highlight" className="text-center py-12">
             <p className="font-display font-bold text-sm uppercase tracking-wider mb-4">방 코드</p>
-            <div className="font-mono font-bold text-6xl tracking-[0.3em] mb-6">{roomCode}</div>
+            <div className="font-mono font-bold text-6xl tracking-[0.3em] mb-6">{currentRoom.code}</div>
             <Button variant="secondary" onClick={handleCopy}>
               {copied ? <Check size={18} /> : <Copy size={18} />}
               {copied ? '복사됨' : '코드 복사'}
@@ -90,15 +101,15 @@ export function RoomCreatePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="brutal-border p-3 bg-brutal-light-gray text-center">
               <div className="font-display font-bold text-xs uppercase text-brutal-gray">방 이름</div>
-              <div className="font-bold mt-1">{form.roomName}</div>
+              <div className="font-bold mt-1">{currentRoom.name}</div>
             </div>
             <div className="brutal-border p-3 bg-brutal-light-gray text-center">
               <div className="font-display font-bold text-xs uppercase text-brutal-gray">팀 수</div>
-              <div className="font-mono font-bold text-xl mt-1">{form.teamCount}</div>
+              <div className="font-mono font-bold text-xl mt-1">{currentRoom.teamCount}</div>
             </div>
             <div className="brutal-border p-3 bg-brutal-light-gray text-center">
               <div className="font-display font-bold text-xs uppercase text-brutal-gray">팀당 인원</div>
-              <div className="font-mono font-bold text-xl mt-1">{form.maxMembers}</div>
+              <div className="font-mono font-bold text-xl mt-1">{currentRoom.maxMembersPerTeam}</div>
             </div>
             <div className="brutal-border p-3 bg-brutal-light-gray text-center">
               <div className="font-display font-bold text-xs uppercase text-brutal-gray">제한 시간</div>
@@ -239,11 +250,11 @@ export function RoomCreatePage() {
           variant="primary"
           size="lg"
           className="w-full"
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
           onClick={handleCreate}
         >
           <Plus size={20} />
-          방 개설하기
+          {isLoading ? '생성 중...' : '방 개설하기'}
         </Button>
       </motion.div>
     </div>

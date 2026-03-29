@@ -1,12 +1,18 @@
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { QrCode, ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
+import { useRoomStore } from '../stores/roomStore'
 
 export function LearnerEntryPage() {
   const [code, setCode] = useState<ReadonlyArray<string>>(['', '', '', '', '', ''])
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const navigate = useNavigate()
+
+  const joinRoom = useRoomStore((s) => s.joinRoom)
+  const isLoading = useRoomStore((s) => s.isLoading)
+  const error = useRoomStore((s) => s.error)
 
   const handleChange = (index: number, value: string) => {
     if (value.length > 1) return
@@ -35,6 +41,15 @@ export function LearnerEntryPage() {
   }
 
   const isComplete = code.every((c) => c !== '')
+  const fullCode = code.join('')
+
+  const handleJoin = async () => {
+    if (!isComplete) return
+    const success = await joinRoom(fullCode)
+    if (success) {
+      navigate('/team')
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -58,7 +73,7 @@ export function LearnerEntryPage() {
         <p className="text-brutal-gray text-lg mb-10">방 코드를 입력하여 대결에 참여하세요</p>
 
         {/* Code Input Boxes */}
-        <div className="flex justify-center gap-3 mb-8">
+        <div className="flex justify-center gap-3 mb-4">
           {code.map((char, index) => (
             <motion.input
               key={index}
@@ -77,8 +92,20 @@ export function LearnerEntryPage() {
           ))}
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <motion.p
+            className="text-red-500 font-bold text-sm mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {error}
+          </motion.p>
+        )}
+
         {/* Join Button */}
         <motion.div
+          className="mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
@@ -86,11 +113,12 @@ export function LearnerEntryPage() {
           <Button
             variant="primary"
             size="lg"
-            className="w-full mb-6"
-            disabled={!isComplete}
+            className="w-full"
+            disabled={!isComplete || isLoading}
+            onClick={handleJoin}
           >
-            참여하기
-            <ArrowRight size={20} />
+            {isLoading ? '참여 중...' : '참여하기'}
+            {!isLoading && <ArrowRight size={20} />}
           </Button>
         </motion.div>
 

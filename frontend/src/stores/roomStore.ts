@@ -50,14 +50,54 @@ interface RoomActions {
   leaveRoom: () => void
   updateRoom: (updates: Partial<Room>) => void
   updateTeam: (teamId: string, updates: Partial<Team>) => void
+  getRooms: () => ReadonlyArray<Room>
 }
 
 type RoomStore = RoomState & RoomActions
+
+const STORAGE_KEY = 'beyond-ai-rooms'
 
 const TEAM_COLORS = [
   '#0055FF', '#FF3333', '#00CC66', '#8B5CF6',
   '#FF6600', '#FF00AA', '#00CCCC', '#FFE500',
 ]
+
+function generateInviteCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  return Array.from({ length: 6 }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join('')
+}
+
+function loadRooms(): ReadonlyArray<Room> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return []
+    return JSON.parse(raw) as Room[]
+  } catch {
+    return []
+  }
+}
+
+function saveRooms(rooms: ReadonlyArray<Room>): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(rooms))
+}
+
+function persistRoom(room: Room): void {
+  const rooms = [...loadRooms()]
+  const idx = rooms.findIndex((r) => r.id === room.id)
+  if (idx >= 0) {
+    rooms[idx] = room
+  } else {
+    rooms.push(room)
+  }
+  saveRooms(rooms)
+}
+
+function findRoomByCode(code: string): Room | null {
+  const rooms = loadRooms()
+  return rooms.find((r) => r.code === code) ?? null
+}
 
 export const useRoomStore = create<RoomStore>((set, get) => ({
   currentRoom: null,
@@ -79,7 +119,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
 
       const room: Room = {
         id: crypto.randomUUID(),
-        code: Math.random().toString(36).substring(2, 8).toUpperCase(),
+        code: generateInviteCode(),
         name: params.name,
         industryType: params.industryType,
         teamCount: params.teamCount,
@@ -90,6 +130,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
         createdAt: new Date().toISOString(),
       }
 
+      persistRoom(room)
       set({ currentRoom: room, isLoading: false })
       return room
     } catch (error) {
@@ -102,13 +143,11 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
   joinRoom: async (code) => {
     set({ isLoading: true, error: null })
     try {
-      // Mock: In production, this would call the API
-      const room = get().currentRoom
-      if (room && room.code === code) {
-        set({ isLoading: false })
+      const room = findRoomByCode(code.toUpperCase())
+      if (room) {
+        set({ currentRoom: room, isLoading: false })
         return true
       }
-      // Simulate finding a room
       set({ isLoading: false, error: '방을 찾을 수 없습니다' })
       return false
     } catch (error) {
@@ -131,24 +170,29 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
 
   setRoom: (room) => set({ currentRoom: room }),
   setMyTeam: (team) => set({ myTeam: team }),
+
   leaveRoom: () => set({ currentRoom: null, myTeam: null, myRole: null }),
 
   updateRoom: (updates) => {
     const room = get().currentRoom
     if (!room) return
-    set({ currentRoom: { ...room, ...updates } })
+    const updated = { ...room, ...updates }
+    persistRoom(updated)
+    set({ currentRoom: updated })
   },
 
   updateTeam: (teamId, updates) => {
     const room = get().currentRoom
     if (!room) return
-    set({
-      currentRoom: {
-        ...room,
-        teams: room.teams.map((t) =>
-          t.id === teamId ? { ...t, ...updates } : t
-        ),
-      },
-    })
+    const updated = {
+      ...room,
+      teams: room.teams.map((t) =>
+        t.id === teamId ? { ...t, ...updates } : t
+      ),
+    }
+    persistRoom(updated)
+    set({ currentRoom: updated })
   },
+
+  getRooms: () => loadRooms(),
 }))

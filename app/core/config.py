@@ -6,6 +6,11 @@ class Settings(BaseSettings):
     app_name: str = "Beyond AI Backend"
     debug: bool = False
 
+    # Database
+    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/beyond_ai"
+    database_url_sync: str = "postgresql://postgres:postgres@localhost:5432/beyond_ai"
+    redis_url: str = "redis://localhost:6379/0"
+
     # Google Apps Script Web API
     gas_web_url: str = ""
     gas_api_key: str = ""

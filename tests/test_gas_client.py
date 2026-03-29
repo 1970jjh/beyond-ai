@@ -260,6 +260,38 @@ class TestBatchOperations:
 
         assert captured["action"] == "batch_update"
 
+    @pytest.mark.asyncio
+    async def test_init_sheet_calls_correct_action(self):
+        client = _make_client()
+        captured = {}
+
+        async def mock_request(action, sheet, data=None, params=None):
+            captured["action"] = action
+            captured["data"] = data
+            return {"success": True, "data": {"created": True}}
+
+        with patch.object(client, "request", new=mock_request):
+            result = await client.init_sheet("new_sheet", ["id", "name", "status"])
+
+        assert captured["action"] == "init_sheet"
+        assert captured["data"]["headers"] == ["id", "name", "status"]
+        assert result == {"created": True}
+
+    @pytest.mark.asyncio
+    async def test_init_sheet_passes_initial_data(self):
+        client = _make_client()
+        captured = {}
+
+        async def mock_request(action, sheet, data=None, params=None):
+            captured["data"] = data
+            return {"success": True, "data": {}}
+
+        initial = [{"id": "1", "name": "seed"}]
+        with patch.object(client, "request", new=mock_request):
+            await client.init_sheet("sheet", ["id", "name"], initial_data=initial)
+
+        assert captured["data"]["initialData"] == initial
+
 
 # ---------------------------------------------------------------------------
 # lifecycle

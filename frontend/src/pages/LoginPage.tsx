@@ -31,7 +31,7 @@ export function LoginPage() {
     e.preventDefault()
     if (!name.trim() || !role) return
     loginLocal(name.trim(), role)
-    navigate('/')
+    navigate(role === 'admin' ? '/admin/dashboard' : '/')
   }
 
   const handleApiLogin = async (e: React.FormEvent) => {

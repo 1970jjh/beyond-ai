@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Search, Mic, BarChart2, Users, Check } from 'lucide-react'
+import { Shield, Search, Mic, BarChart2, Users, Check, Swords } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
@@ -51,6 +52,7 @@ const INITIAL_TEAMS: ReadonlyArray<TeamData> = [
 ]
 
 export function TeamFormationPage() {
+  const navigate = useNavigate()
   const [teams, setTeams] = useState(INITIAL_TEAMS)
 
   const updateMemberRole = (teamId: string, memberId: string, role: TeamRole) => {
@@ -182,7 +184,9 @@ export function TeamFormationPage() {
         size="lg"
         className="w-full"
         disabled={!allReady}
+        onClick={() => navigate('/battle')}
       >
+        <Swords size={20} />
         대결 시작
       </Button>
     </div>

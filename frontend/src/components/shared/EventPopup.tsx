@@ -28,8 +28,15 @@ const EVENT_COLORS: Record<GameEvent['type'], string> = {
   boss_raid: 'bg-brutal-black border-brutal-red',
 }
 
-export function EventPopup() {
-  const { activeEvent, clearEvent } = useGameStore()
+interface EventPopupProps {
+  readonly event?: GameEvent | null
+  readonly onClose?: () => void
+}
+
+export function EventPopup({ event: propEvent, onClose: propOnClose }: EventPopupProps = {}) {
+  const { activeEvent: storeEvent, clearEvent: storeClearEvent } = useGameStore()
+  const activeEvent = propEvent ?? storeEvent
+  const clearEvent = propOnClose ?? storeClearEvent
 
   return (
     <AnimatePresence>

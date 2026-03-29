@@ -68,10 +68,11 @@ export function Header() {
             )}
             {isAdmin && (
               <Link
-                to="/admin"
-                className="flex items-center gap-1 px-3 py-2 text-brutal-white hover:bg-brutal-gray transition-colors no-underline"
+                to="/admin/dashboard"
+                className="flex items-center gap-1 px-3 py-2 text-brutal-white hover:bg-brutal-gray transition-colors no-underline font-display font-bold text-xs uppercase"
               >
                 <Settings size={16} />
+                <span className="hidden md:inline">콘솔</span>
               </Link>
             )}
             {user && (

@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { User, Bot, Swords, Clock, Target, Zap } from 'lucide-react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
+import { QUEST_CONFIGS } from '../data/quests'
 
 const CRITERIA = ['품질', '창의성', '실행력', '시간 효율'] as const
 
 export function BattlePrepPage() {
+  const { questId } = useParams()
+  const navigate = useNavigate()
+  const quest = questId ? QUEST_CONFIGS.find(q => q.id === questId) : QUEST_CONFIGS[2]
+
   const [countdown, setCountdown] = useState(3)
   const [started, setStarted] = useState(false)
   const [showStart, setShowStart] = useState(false)
@@ -18,6 +24,15 @@ export function BattlePrepPage() {
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
     return () => clearTimeout(timer)
   }, [countdown])
+
+  // Navigate to battle after FIGHT! animation
+  useEffect(() => {
+    if (!started) return
+    const timer = setTimeout(() => {
+      navigate(questId ? `/battle/${questId}` : '/battle')
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [started, questId, navigate])
 
   return (
     <div className="min-h-screen bg-brutal-black text-brutal-white relative overflow-hidden">
@@ -32,10 +47,10 @@ export function BattlePrepPage() {
           animate={{ opacity: 1, y: 0 }}
         >
           <span className="inline-block bg-brutal-yellow text-brutal-black font-mono font-bold text-xs uppercase tracking-wider px-3 py-1 border-2 border-brutal-black mb-4">
-            QUEST #03
+            QUEST #{String(quest?.month ?? 3).padStart(2, '0')}
           </span>
           <h1 className="font-display font-bold text-3xl md:text-4xl uppercase mb-4">
-            사업 제안서 작성
+            {quest?.icon} {quest?.title ?? '사업 제안서 작성'}
           </h1>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             {CRITERIA.map((c) => (
@@ -115,7 +130,9 @@ export function BattlePrepPage() {
             <Clock size={16} className="text-brutal-yellow" />
             <span className="font-mono text-xs uppercase tracking-wider text-brutal-gray">제한 시간</span>
           </div>
-          <div className="font-mono font-bold text-4xl neon-yellow tabular-nums">30:00</div>
+          <div className="font-mono font-bold text-4xl neon-yellow tabular-nums">
+            {Math.floor((quest?.timeLimit ?? 1800) / 60)}:{String((quest?.timeLimit ?? 1800) % 60).padStart(2, '0')}
+          </div>
         </motion.div>
 
         {/* Countdown */}

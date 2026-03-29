@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Beyond AI - LinkedIn Banner (1200x627)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .canvas {
+    width: 1200px;
+    height: 627px;
+    background: #000000;
+    position: relative;
+    overflow: hidden;
+    color: #FFFFFF;
+    font-family: 'Inter', 'Pretendard', sans-serif;
+    display: flex;
+  }
+
+  /* Left panel - content */
+  .left-panel {
+    flex: 1;
+    padding: 48px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #E6FF00;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 0;
+  }
+
+  .overline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    margin-bottom: 16px;
+  }
+
+  .headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .headline .accent { color: #E6FF00; }
+
+  .desc {
+    font-size: 18px;
+    color: #CCCCCC;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cta-btn {
+    background: #E6FF00;
+    color: #000000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 28px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 3px solid #000000;
+    box-shadow: 4px 4px 0 #FFFFFF;
+  }
+
+  .event-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #666666;
+  }
+
+  .event-meta strong {
+    color: #FFFFFF;
+  }
+
+  /* Right panel - battle visual */
+  .right-panel {
+    width: 420px;
+    position: relative;
+    border-left: 3px solid #333333;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .battle-top {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(0,102,255,0.12) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 3px solid #333333;
+    position: relative;
+  }
+
+  .battle-bottom {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(255,51,51,0.12) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .battle-icon {
+    font-size: 64px;
+    margin-bottom: 8px;
+  }
+
+  .battle-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .battle-top .battle-label { color: #0066FF; }
+  .battle-bottom .battle-label { color: #FF3333; }
+
+  .vs-badge {
+    position: absolute;
+    left: 50%;
+    bottom: -24px;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  .battle-top .vs-badge {
+    bottom: -24px;
+  }
+
+  .vs-pill {
+    background: #E6FF00;
+    color: #000000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    padding: 8px 20px;
+    border: 3px solid #000000;
+  }
+
+  /* Quest ticker */
+  .quest-ticker {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111111;
+    border-top: 2px solid #333333;
+    padding: 8px 16px;
+    display: flex;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .quest-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #666666;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  .quest-chip .num {
+    color: #E6FF00;
+  }
+
+  /* Accent bar */
+  .accent-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 8px;
+    background: #E6FF00;
+    z-index: 3;
+  }
+</style>
+</head>
+<body>
+
+<div class="canvas">
+  <div class="accent-left"></div>
+
+  <div class="left-panel">
+    <div class="logo-row">
+      <div class="logo-mark">[B]</div>
+      <div class="logo-text">BEYOND AI</div>
+    </div>
+
+    <div class="main-content">
+      <div class="overline">Experience Event</div>
+      <h1 class="headline">
+        사람 vs AI<br>
+        <span class="accent">12개월의 성장 대결</span>
+      </h1>
+      <p class="desc">AI를 넘어서는 진짜 실력을 키우는<br>국내 유일 게이미피케이션 기업교육</p>
+    </div>
+
+    <div class="bottom-row">
+      <div class="cta-btn">참가 신청</div>
+      <div class="event-meta">
+        <strong>2026.04.15</strong> (수) 14:00<br>
+        서울 강남 | 무료 | 선착순 50명
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="battle-top">
+      <div class="battle-icon">👤</div>
+      <div class="battle-label">Human</div>
+      <div class="vs-badge">
+        <div class="vs-pill">VS</div>
+      </div>
+    </div>
+    <div class="battle-bottom">
+      <div class="battle-icon">🤖</div>
+      <div class="battle-label">AI</div>
+    </div>
+    <div class="quest-ticker">
+      <span class="quest-chip"><span class="num">Q01</span> 전략기획</span>
+      <span class="quest-chip"><span class="num">Q02</span> 데이터분석</span>
+      <span class="quest-chip"><span class="num">Q03</span> 마케팅</span>
+      <span class="quest-chip"><span class="num">Q04</span> 프레젠테이션</span>
+      <span class="quest-chip"><span class="num">Q05</span> 문제해결</span>
+      <span class="quest-chip"><span class="num">Q06</span> 크리에이티브</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,19 +1,27 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
-import { Swords, Map, LayoutDashboard, Trophy, Settings, BarChart2, FileText, Zap } from 'lucide-react'
-
-const navItems = [
-  { path: '/', label: '대시보드', icon: LayoutDashboard },
-  { path: '/battle', label: '대결', icon: Swords },
-  { path: '/quests', label: '퀘스트', icon: Map },
-  { path: '/ranking', label: '랭킹', icon: Trophy },
-  { path: '/analysis', label: '분석', icon: BarChart2 },
-  { path: '/report', label: '리포트', icon: FileText },
-  { path: '/events', label: '이벤트', icon: Zap },
-] as const
+import { Swords, Map, LayoutDashboard, Trophy, Settings, BarChart2, LogOut, Plus } from 'lucide-react'
+import { useAuthStore } from '../../stores/authStore'
 
 export function Header() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const user = useAuthStore(s => s.user)
+  const logout = useAuthStore(s => s.logout)
+  const isAdmin = user?.role === 'admin'
+
+  const navItems = [
+    { path: '/', label: '대시보드', icon: LayoutDashboard },
+    { path: '/battle', label: '대결', icon: Swords },
+    { path: '/quests', label: '퀘스트', icon: Map },
+    { path: '/ranking', label: '랭킹', icon: Trophy },
+    { path: '/analysis', label: '분석', icon: BarChart2 },
+  ] as const
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
 
   return (
     <header className="brutal-border-thick border-t-0 border-x-0 bg-brutal-black text-brutal-white">
@@ -35,26 +43,49 @@ export function Header() {
                   key={path}
                   to={path}
                   className={clsx(
-                    'flex items-center gap-2 px-4 py-2 font-display font-bold text-sm uppercase tracking-wider no-underline transition-colors',
+                    'flex items-center gap-2 px-3 py-2 font-display font-bold text-xs uppercase tracking-wider no-underline transition-colors',
                     isActive
                       ? 'bg-brutal-yellow text-brutal-black'
                       : 'text-brutal-white hover:bg-brutal-gray',
                   )}
                 >
-                  <Icon size={18} />
-                  <span className="hidden md:inline">{label}</span>
+                  <Icon size={16} />
+                  <span className="hidden lg:inline">{label}</span>
                 </Link>
               )
             })}
           </nav>
 
-          <Link
-            to="/admin"
-            className="flex items-center gap-2 px-3 py-2 text-brutal-white hover:bg-brutal-gray transition-colors no-underline"
-          >
-            <Settings size={18} />
-            <span className="hidden md:inline font-display font-bold text-sm uppercase">관리자</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            {isAdmin && (
+              <Link
+                to="/room/create"
+                className="flex items-center gap-1 px-3 py-2 text-brutal-yellow hover:bg-brutal-gray transition-colors no-underline font-display font-bold text-xs uppercase"
+              >
+                <Plus size={16} />
+                <span className="hidden md:inline">방 개설</span>
+              </Link>
+            )}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="flex items-center gap-1 px-3 py-2 text-brutal-white hover:bg-brutal-gray transition-colors no-underline"
+              >
+                <Settings size={16} />
+              </Link>
+            )}
+            {user && (
+              <span className="hidden md:inline font-mono text-xs text-brutal-gray px-2">
+                {user.name} ({user.role === 'admin' ? '관리자' : '학습자'})
+              </span>
+            )}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1 px-3 py-2 text-brutal-gray hover:text-brutal-red hover:bg-brutal-gray/30 transition-colors cursor-pointer border-none bg-transparent"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
         </div>
       </div>
     </header>

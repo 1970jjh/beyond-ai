@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Beyond AI 프로그램 구조 인포그래픽</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #444;
+    font-family: 'Inter', 'Pretendard', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .infographic {
+    width: 800px;
+    background: #000000;
+    color: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .ig-header {
+    background: #E6FF00;
+    color: #000000;
+    padding: 40px 48px;
+    position: relative;
+  }
+
+  .ig-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .ig-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .ig-subtitle {
+    font-size: 16px;
+    opacity: 0.7;
+  }
+
+  .ig-badge {
+    position: absolute;
+    top: 40px;
+    right: 48px;
+    background: #000000;
+    color: #E6FF00;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 8px 16px;
+    text-transform: uppercase;
+  }
+
+  /* Battle Concept */
+  .ig-concept {
+    padding: 40px 48px;
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .concept-side {
+    flex: 1;
+    padding: 24px;
+    text-align: center;
+    border: 2px solid #333;
+  }
+
+  .concept-side.human {
+    background: rgba(0,102,255,0.08);
+    border-right: 1px solid #333;
+  }
+
+  .concept-side.ai {
+    background: rgba(255,51,51,0.08);
+    border-left: 1px solid #333;
+  }
+
+  .cs-icon { font-size: 48px; margin-bottom: 8px; }
+  .cs-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .concept-side.human .cs-label { color: #0066FF; }
+  .concept-side.ai .cs-label { color: #FF3333; }
+
+  .cs-desc {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.5;
+  }
+
+  .concept-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 56px;
+    background: #E6FF00;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    border: 2px solid #333;
+  }
+
+  /* Section divider */
+  .ig-divider {
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    gap: 16px;
+  }
+
+  .ig-divider .line {
+    flex: 1;
+    height: 2px;
+    background: #333;
+  }
+
+  .ig-divider .label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    white-space: nowrap;
+  }
+
+  /* Quest Flow */
+  .ig-quests {
+    padding: 32px 48px;
+  }
+
+  .quest-flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0;
+    border: 2px solid #333;
+  }
+
+  .quest-item {
+    padding: 16px;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+    text-align: center;
+    background: #111;
+    transition: background 200ms;
+  }
+
+  .quest-item:nth-child(4n) { border-right: none; }
+  .quest-item:nth-child(n+9) { border-bottom: none; }
+
+  .qi-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    color: #E6FF00;
+    background: #000;
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid #E6FF00;
+    margin-bottom: 8px;
+  }
+
+  .qi-icon { font-size: 24px; margin-bottom: 4px; }
+
+  .qi-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .qi-month {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #666;
+  }
+
+  /* Timeline */
+  .ig-timeline {
+    padding: 0 48px 32px;
+  }
+
+  .timeline-bar {
+    display: flex;
+    border: 2px solid #333;
+  }
+
+  .tl-phase {
+    flex: 1;
+    padding: 20px 16px;
+    text-align: center;
+    border-right: 1px solid #333;
+  }
+
+  .tl-phase:last-child { border-right: none; }
+
+  .tl-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .tl-phase:nth-child(1) .tl-period { color: #3399FF; }
+  .tl-phase:nth-child(2) .tl-period { color: #00CC66; }
+  .tl-phase:nth-child(3) .tl-period { color: #FF9900; }
+  .tl-phase:nth-child(4) .tl-period { color: #FF3333; }
+
+  .tl-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .tl-desc {
+    font-size: 11px;
+    color: #999;
+    line-height: 1.4;
+  }
+
+  .tl-progress {
+    height: 4px;
+    margin-top: 12px;
+    background: #333;
+    position: relative;
+  }
+
+  .tl-progress-fill {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .tl-phase:nth-child(1) .tl-progress-fill { background: #3399FF; width: 25%; }
+  .tl-phase:nth-child(2) .tl-progress-fill { background: #00CC66; width: 50%; }
+  .tl-phase:nth-child(3) .tl-progress-fill { background: #FF9900; width: 75%; }
+  .tl-phase:nth-child(4) .tl-progress-fill { background: #FF3333; width: 100%; }
+
+  /* Scoring System */
+  .ig-scoring {
+    padding: 0 48px 32px;
+  }
+
+  .scoring-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .score-step {
+    flex: 1;
+    background: #111;
+    border: 2px solid #333;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .ss-icon { font-size: 28px; margin-bottom: 6px; }
+
+  .ss-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .ss-desc {
+    font-size: 11px;
+    color: #999;
+  }
+
+  .score-arrow {
+    flex: 0 0 32px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: #E6FF00;
+  }
+
+  /* Benefits */
+  .ig-benefits {
+    padding: 0 48px 40px;
+  }
+
+  .benefits-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .benefit-card {
+    background: #111;
+    border: 2px solid #333;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .bc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 32px;
+    color: #E6FF00;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .bc-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .bc-desc {
+    font-size: 11px;
+    color: #999;
+  }
+
+  /* Footer */
+  .ig-footer {
+    background: #E6FF00;
+    color: #000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .igf-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 4px;
+  }
+
+  .igf-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .igf-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .igf-qr {
+    width: 48px;
+    height: 48px;
+    background: #000;
+    color: #E6FF00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    border: 2px solid #000;
+  }
+</style>
+</head>
+<body>
+
+<div class="infographic">
+  <!-- Header -->
+  <div class="ig-header">
+    <div class="ig-logo">[B]</div>
+    <div class="ig-title">Beyond AI<br>프로그램 구조</div>
+    <div class="ig-subtitle">사람 vs AI, 12개월의 성장 대결</div>
+    <div class="ig-badge">Infographic</div>
+  </div>
+
+  <!-- Battle Concept -->
+  <div class="ig-concept">
+    <div class="concept-side human">
+      <div class="cs-icon">👤</div>
+      <div class="cs-label">Human</div>
+      <div class="cs-desc">학습자가 직접<br>퀘스트를 수행</div>
+    </div>
+    <div class="concept-vs">VS</div>
+    <div class="concept-side ai">
+      <div class="cs-icon">🤖</div>
+      <div class="cs-label">AI</div>
+      <div class="cs-desc">동일 미션을<br>AI가 동시 수행</div>
+    </div>
+  </div>
+
+  <!-- 12 Quests -->
+  <div class="ig-divider">
+    <div class="line"></div>
+    <div class="label">12 Quests</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ig-quests">
+    <div class="quest-flow">
+      <div class="quest-item">
+        <div class="qi-num">Q01</div><br>
+        <div class="qi-icon">📋</div>
+        <div class="qi-name">전략 기획</div>
+        <div class="qi-month">Month 1</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q02</div><br>
+        <div class="qi-icon">📊</div>
+        <div class="qi-name">데이터 분석</div>
+        <div class="qi-month">Month 2</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q03</div><br>
+        <div class="qi-icon">📢</div>
+        <div class="qi-name">마케팅</div>
+        <div class="qi-month">Month 3</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q04</div><br>
+        <div class="qi-icon">🎤</div>
+        <div class="qi-name">프레젠테이션</div>
+        <div class="qi-month">Month 4</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q05</div><br>
+        <div class="qi-icon">🧩</div>
+        <div class="qi-name">문제 해결</div>
+        <div class="qi-month">Month 5</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q06</div><br>
+        <div class="qi-icon">💡</div>
+        <div class="qi-name">크리에이티브</div>
+        <div class="qi-month">Month 6</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q07</div><br>
+        <div class="qi-icon">👥</div>
+        <div class="qi-name">리더십</div>
+        <div class="qi-month">Month 7</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q08</div><br>
+        <div class="qi-icon">💬</div>
+        <div class="qi-name">커뮤니케이션</div>
+        <div class="qi-month">Month 8</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q09</div><br>
+        <div class="qi-icon">📁</div>
+        <div class="qi-name">프로젝트 관리</div>
+        <div class="qi-month">Month 9</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q10</div><br>
+        <div class="qi-icon">💰</div>
+        <div class="qi-name">재무 분석</div>
+        <div class="qi-month">Month 10</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q11</div><br>
+        <div class="qi-icon">🚀</div>
+        <div class="qi-name">혁신 설계</div>
+        <div class="qi-month">Month 11</div>
+      </div>
+      <div class="quest-item">
+        <div class="qi-num">Q12</div><br>
+        <div class="qi-icon">🏆</div>
+        <div class="qi-name">종합 전략</div>
+        <div class="qi-month">Month 12</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="ig-divider">
+    <div class="line"></div>
+    <div class="label">Program Timeline</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ig-timeline">
+    <div class="timeline-bar">
+      <div class="tl-phase">
+        <div class="tl-period">M1 - M3</div>
+        <div class="tl-name">기초</div>
+        <div class="tl-desc">기본 역량 측정<br>AI 대결 적응기</div>
+        <div class="tl-progress"><div class="tl-progress-fill"></div></div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-period">M4 - M6</div>
+        <div class="tl-name">성장</div>
+        <div class="tl-desc">심화 퀘스트<br>전략적 사고 강화</div>
+        <div class="tl-progress"><div class="tl-progress-fill"></div></div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-period">M7 - M9</div>
+        <div class="tl-name">도약</div>
+        <div class="tl-desc">복합 미션 수행<br>리더십 개발</div>
+        <div class="tl-progress"><div class="tl-progress-fill"></div></div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-period">M10 - M12</div>
+        <div class="tl-name">마스터</div>
+        <div class="tl-desc">종합 역량 발휘<br>최종 랭킹 결산</div>
+        <div class="tl-progress"><div class="tl-progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scoring Flow -->
+  <div class="ig-divider">
+    <div class="line"></div>
+    <div class="label">Battle Flow</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ig-scoring">
+    <div class="scoring-flow">
+      <div class="score-step">
+        <div class="ss-icon">🎯</div>
+        <div class="ss-name">퀘스트 수행</div>
+        <div class="ss-desc">월별 미션 도전</div>
+      </div>
+      <div class="score-arrow">&rarr;</div>
+      <div class="score-step">
+        <div class="ss-icon">⚔️</div>
+        <div class="ss-name">AI 대결</div>
+        <div class="ss-desc">동일 미션 비교</div>
+      </div>
+      <div class="score-arrow">&rarr;</div>
+      <div class="score-step">
+        <div class="ss-icon">📊</div>
+        <div class="ss-name">평가 분석</div>
+        <div class="ss-desc">다차원 스코어링</div>
+      </div>
+      <div class="score-arrow">&rarr;</div>
+      <div class="score-step">
+        <div class="ss-icon">🏆</div>
+        <div class="ss-name">랭킹 갱신</div>
+        <div class="ss-desc">실시간 순위 반영</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Benefits -->
+  <div class="ig-divider">
+    <div class="line"></div>
+    <div class="label">Expected Outcomes</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="ig-benefits">
+    <div class="benefits-row">
+      <div class="benefit-card">
+        <div class="bc-num">92%</div>
+        <div class="bc-label">참여율</div>
+        <div class="bc-desc">자발적 학습 동기</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">3.5x</div>
+        <div class="bc-label">학습 효과</div>
+        <div class="bc-desc">기존 교육 대비</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">12</div>
+        <div class="bc-label">역량 영역</div>
+        <div class="bc-desc">종합적 성장 측정</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-num">365</div>
+        <div class="bc-label">일 성장 기록</div>
+        <div class="bc-desc">장기 추적 관리</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="ig-footer">
+    <div class="igf-brand">BEYOND AI</div>
+    <div class="igf-cta">
+      <div class="igf-text">체험회 신청</div>
+      <div class="igf-qr">QR</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

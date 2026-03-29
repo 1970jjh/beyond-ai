@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Beyond AI 프레젠테이션 템플릿</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #444;
+    font-family: 'Inter', 'Pretendard', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .slide-label {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #aaa;
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .slide {
+    width: 960px;
+    height: 540px;
+    position: relative;
+    overflow: hidden;
+    color: #FFFFFF;
+    border: 1px solid #555;
+  }
+
+  /* ===== SLIDE 1: Title ===== */
+  .s-title {
+    background: #000000;
+    display: flex;
+  }
+
+  .s-title .left {
+    flex: 1;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .s-title .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+  }
+
+  .s-title .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .s-title .overline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: #E6FF00;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .s-title h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .s-title h1 .yellow { color: #E6FF00; }
+
+  .s-title .sub {
+    font-size: 16px;
+    color: #CCCCCC;
+  }
+
+  .s-title .presenter {
+    font-size: 13px;
+    color: #666666;
+  }
+
+  .s-title .right {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    border-left: 3px solid #333;
+  }
+
+  .s-title .battle-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .s-title .battle-half.human {
+    background: rgba(0,102,255,0.1);
+    border-bottom: 1.5px solid #333;
+  }
+
+  .s-title .battle-half.ai {
+    background: rgba(255,51,51,0.1);
+    border-top: 1.5px solid #333;
+  }
+
+  .s-title .b-icon { font-size: 40px; margin-bottom: 4px; }
+  .s-title .b-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+  .s-title .battle-half.human .b-label { color: #0066FF; }
+  .s-title .battle-half.ai .b-label { color: #FF3333; }
+
+  .s-title .vs-mid {
+    position: absolute;
+    right: 136px;
+    top: 50%;
+    transform: translate(0, -50%);
+    background: #E6FF00;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 6px 14px;
+    border: 2px solid #000;
+    z-index: 5;
+  }
+
+  .accent-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #E6FF00;
+    z-index: 10;
+  }
+
+  /* ===== SLIDE 2: Section Divider ===== */
+  .s-section {
+    background: #E6FF00;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 64px;
+  }
+
+  .s-section .sec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 72px;
+    opacity: 0.2;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .s-section h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .s-section .sec-sub {
+    font-size: 18px;
+    color: rgba(0,0,0,0.6);
+  }
+
+  .s-section .logo-bottom {
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    opacity: 0.3;
+  }
+
+  /* ===== SLIDE 3: Content ===== */
+  .s-content {
+    background: #000000;
+    padding: 48px;
+  }
+
+  .s-content .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #333;
+  }
+
+  .s-content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .s-content .page-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .content-card {
+    background: #111;
+    border: 2px solid #333;
+    padding: 24px;
+  }
+
+  .cc-icon { font-size: 32px; margin-bottom: 12px; }
+
+  .cc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .cc-desc {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.5;
+  }
+
+  .s-content .slide-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #E6FF00, #0066FF, #FF3333);
+  }
+
+  /* ===== SLIDE 4: Data/Stats ===== */
+  .s-data {
+    background: #000000;
+    padding: 48px;
+  }
+
+  .s-data .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #333;
+  }
+
+  .s-data h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .s-data .page-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+  }
+
+  .stat-block {
+    text-align: center;
+    padding: 24px 40px;
+    border: 2px solid #333;
+    background: #111;
+    min-width: 180px;
+  }
+
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 56px;
+    color: #E6FF00;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #CCCCCC;
+  }
+
+  .stat-desc {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+  }
+
+  .s-data .slide-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #E6FF00, #0066FF, #FF3333);
+  }
+
+  /* ===== SLIDE 5: Closing ===== */
+  .s-closing {
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .s-closing .c-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 80px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .s-closing .c-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 10px;
+    color: #E6FF00;
+    margin-bottom: 32px;
+  }
+
+  .s-closing .c-tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .s-closing .c-sub {
+    font-size: 16px;
+    color: #CCCCCC;
+    margin-bottom: 40px;
+  }
+
+  .s-closing .c-cta {
+    background: #E6FF00;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 40px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #FFF;
+  }
+
+  .s-closing .c-contact {
+    position: absolute;
+    bottom: 32px;
+    font-size: 13px;
+    color: #666;
+  }
+
+  .s-closing .accent-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #E6FF00;
+  }
+
+  .s-closing .accent-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #E6FF00;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title Slide -->
+<div class="slide-label">SLIDE 1 — Title</div>
+<div class="slide s-title">
+  <div class="accent-top"></div>
+  <div class="left">
+    <div class="logo">[B]</div>
+    <div class="hero">
+      <div class="overline">Beyond AI Experience</div>
+      <h1>사람 vs AI<br><span class="yellow">12개월의 성장 대결</span></h1>
+      <div class="sub">AI를 넘어서는 진짜 실력을 키우다</div>
+    </div>
+    <div class="presenter">발표자: {이름} | 2026. 04. 15</div>
+  </div>
+  <div class="right">
+    <div class="battle-half human">
+      <div class="b-icon">👤</div>
+      <div class="b-label">HUMAN</div>
+    </div>
+    <div class="battle-half ai">
+      <div class="b-icon">🤖</div>
+      <div class="b-label">AI</div>
+    </div>
+  </div>
+  <div class="vs-mid">VS</div>
+</div>
+
+<!-- SLIDE 2: Section Divider -->
+<div class="slide-label">SLIDE 2 — Section Divider Template</div>
+<div class="slide s-section">
+  <div class="sec-num">01</div>
+  <h2>프로그램 소개</h2>
+  <div class="sec-sub">Beyond AI가 해결하는 기업교육의 문제</div>
+  <div class="logo-bottom">[B]</div>
+</div>
+
+<!-- SLIDE 3: Content Template -->
+<div class="slide-label">SLIDE 3 — Content Template (3-column)</div>
+<div class="slide s-content">
+  <div class="slide-header">
+    <h2>핵심 특징</h2>
+    <div class="page-num">03 / 12</div>
+  </div>
+  <div class="content-grid">
+    <div class="content-card">
+      <div class="cc-icon">⚔️</div>
+      <div class="cc-title">사람 vs AI 대결</div>
+      <div class="cc-desc">동일 미션을 사람과 AI가 각각 수행하고 결과를 비교 분석합니다.</div>
+    </div>
+    <div class="content-card">
+      <div class="cc-icon">🎯</div>
+      <div class="cc-title">12개 퀘스트</div>
+      <div class="cc-desc">매월 새로운 실무 기반 퀘스트로 다양한 역량을 측정합니다.</div>
+    </div>
+    <div class="content-card">
+      <div class="cc-icon">🏆</div>
+      <div class="cc-title">랭킹 시스템</div>
+      <div class="cc-desc">실시간 점수와 랭킹으로 건전한 경쟁 문화를 만듭니다.</div>
+    </div>
+  </div>
+  <div class="slide-footer"></div>
+</div>
+
+<!-- SLIDE 4: Data/Stats Template -->
+<div class="slide-label">SLIDE 4 — Data/Stats Template</div>
+<div class="slide s-data">
+  <div class="slide-header">
+    <h2>프로그램 성과</h2>
+    <div class="page-num">07 / 12</div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-block">
+      <div class="stat-num">92%</div>
+      <div class="stat-label">참여율</div>
+      <div class="stat-desc">게이미피케이션 효과</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">3.5x</div>
+      <div class="stat-label">학습 효과</div>
+      <div class="stat-desc">기존 교육 대비</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">87%</div>
+      <div class="stat-label">만족도</div>
+      <div class="stat-desc">수료자 설문 기준</div>
+    </div>
+  </div>
+  <div class="slide-footer"></div>
+</div>
+
+<!-- SLIDE 5: Closing -->
+<div class="slide-label">SLIDE 5 — Closing</div>
+<div class="slide s-closing">
+  <div class="accent-top"></div>
+  <div class="c-logo">[B]</div>
+  <div class="c-brand">BEYOND AI</div>
+  <div class="c-tagline">이번 도전, 준비됐나요?</div>
+  <div class="c-sub">AI를 넘어서는 진짜 실력을 키우다</div>
+  <div class="c-cta">체험 신청하기</div>
+  <div class="c-contact">contact@beyond-ai.co.kr | 02-1234-5678</div>
+  <div class="accent-bottom"></div>
+</div>
+
+</body>
+</html>

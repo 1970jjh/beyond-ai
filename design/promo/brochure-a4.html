@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond AI 프로그램 브로셔 (A4 양면)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page { size: A4; margin: 0; }
+
+  body {
+    background: #555;
+    font-family: 'Inter', 'Pretendard', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-label {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  /* ===== FRONT PAGE ===== */
+  .front {
+    background: #000000;
+    color: #FFFFFF;
+  }
+
+  .front-accent {
+    height: 16px;
+    background: #E6FF00;
+  }
+
+  .front-header {
+    padding: 40px 48px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .f-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 56px;
+    font-weight: 700;
+  }
+
+  .f-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    background: rgba(230,255,0,0.1);
+    border: 2px solid #E6FF00;
+    padding: 6px 16px;
+  }
+
+  .front-hero {
+    padding: 48px 48px 32px;
+  }
+
+  .f-overline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    margin-bottom: 16px;
+  }
+
+  .f-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .f-title .yellow { color: #E6FF00; }
+
+  .f-subtitle {
+    font-size: 18px;
+    color: #CCCCCC;
+    line-height: 1.6;
+    max-width: 400px;
+  }
+
+  /* Battle strip */
+  .f-battle {
+    margin: 0 48px;
+    display: flex;
+    border: 3px solid #333333;
+  }
+
+  .f-battle-side {
+    flex: 1;
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .f-battle-side.human {
+    background: linear-gradient(180deg, rgba(0,102,255,0.12) 0%, transparent 100%);
+    border-right: 1.5px solid #333333;
+  }
+
+  .f-battle-side.ai {
+    background: linear-gradient(180deg, rgba(255,51,51,0.12) 0%, transparent 100%);
+    border-left: 1.5px solid #333333;
+  }
+
+  .fb-icon { font-size: 48px; margin-bottom: 8px; }
+  .fb-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .f-battle-side.human .fb-label { color: #0066FF; }
+  .f-battle-side.ai .fb-label { color: #FF3333; }
+
+  .f-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 64px;
+    background: #E6FF00;
+    color: #000000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+  }
+
+  /* Key Points */
+  .f-points {
+    padding: 40px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .f-point {
+    border: 2px solid #333333;
+    padding: 24px 20px;
+    background: #111111;
+  }
+
+  .fp-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 32px;
+    color: #E6FF00;
+    margin-bottom: 8px;
+  }
+
+  .fp-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .fp-desc {
+    font-size: 13px;
+    color: #999999;
+    line-height: 1.5;
+  }
+
+  /* Event CTA */
+  .f-cta {
+    margin: 0 48px;
+    background: #E6FF00;
+    color: #000000;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid #000000;
+  }
+
+  .fc-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  .fc-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  /* Front footer */
+  .f-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 48px;
+    background: #0A0A0A;
+    border-top: 2px solid #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ff-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #FFFFFF;
+  }
+
+  .ff-contact {
+    font-size: 11px;
+    color: #666666;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* ===== BACK PAGE ===== */
+  .back {
+    background: #FFFFFF;
+    color: #000000;
+  }
+
+  .back-accent {
+    height: 8px;
+    background: #000000;
+  }
+
+  .back-header {
+    padding: 32px 48px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .bh-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  .bh-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #666666;
+  }
+
+  /* 12 Quests Grid */
+  .section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #000000;
+    padding: 0 48px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #000000;
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+
+  .quest-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin: 0 48px 32px;
+    border: 2px solid #000000;
+  }
+
+  .quest-card {
+    padding: 16px;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+  }
+
+  .quest-card:nth-child(3n) { border-right: none; }
+  .quest-card:nth-child(n+10) { border-bottom: none; }
+
+  .qc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FFFFFF;
+    background: #000000;
+    display: inline-block;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+
+  .qc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .qc-desc {
+    font-size: 11px;
+    color: #666666;
+    line-height: 1.4;
+  }
+
+  /* Program Structure */
+  .structure-section {
+    margin: 0 48px 32px;
+  }
+
+  .structure-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #000000;
+  }
+
+  .timeline {
+    display: flex;
+    gap: 0;
+    border: 2px solid #000000;
+  }
+
+  .timeline-phase {
+    flex: 1;
+    padding: 16px;
+    border-right: 1px solid #CCCCCC;
+    text-align: center;
+  }
+
+  .timeline-phase:last-child { border-right: none; }
+
+  .tp-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    background: #E6FF00;
+    color: #000000;
+    display: inline-block;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+
+  .tp-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .tp-desc {
+    font-size: 10px;
+    color: #666666;
+    line-height: 1.4;
+  }
+
+  /* Benefits */
+  .benefits-section {
+    margin: 0 48px 24px;
+  }
+
+  .benefits-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #000000;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: #F2F2F2;
+    border: 1px solid #CCCCCC;
+  }
+
+  .bi-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .bi-text {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .bi-text strong {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 2px;
+  }
+
+  /* Back CTA */
+  .back-cta {
+    margin: 0 48px;
+    background: #000000;
+    color: #FFFFFF;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bc-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .bc-qr {
+    width: 64px;
+    height: 64px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #000000;
+  }
+
+  .bc-info {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .bc-info strong {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #E6FF00;
+  }
+
+  .bc-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: #E6FF00;
+  }
+
+  /* Back footer */
+  .back-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 48px;
+    background: #F2F2F2;
+    border-top: 1px solid #CCCCCC;
+    text-align: center;
+    font-size: 10px;
+    color: #999999;
+    line-height: 1.6;
+  }
+
+  @media print {
+    body { background: none; padding: 0; gap: 0; }
+    .page { box-shadow: none; page-break-after: always; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== FRONT (앞면) ===== -->
+<div class="page-label">FRONT (앞면)</div>
+<div class="page front">
+  <div class="front-accent"></div>
+
+  <div class="front-header">
+    <div class="f-logo">[B]</div>
+    <div class="f-tag">Program Brochure</div>
+  </div>
+
+  <div class="front-hero">
+    <div class="f-overline">Beyond AI Experience</div>
+    <h1 class="f-title">
+      사람 vs AI<br>
+      <span class="yellow">12개월의<br>성장 대결</span>
+    </h1>
+    <p class="f-subtitle">AI를 넘어서는 진짜 실력을 키우는<br>국내 유일 게이미피케이션 기업교육 프로그램</p>
+  </div>
+
+  <div class="f-battle">
+    <div class="f-battle-side human">
+      <div class="fb-icon">👤</div>
+      <div class="fb-label">Human</div>
+    </div>
+    <div class="f-vs">VS</div>
+    <div class="f-battle-side ai">
+      <div class="fb-icon">🤖</div>
+      <div class="fb-label">AI</div>
+    </div>
+  </div>
+
+  <div class="f-points">
+    <div class="f-point">
+      <div class="fp-num">12</div>
+      <div class="fp-title">퀘스트</div>
+      <div class="fp-desc">월별 실무 미션으로 성장을 측정</div>
+    </div>
+    <div class="f-point">
+      <div class="fp-num">1:1</div>
+      <div class="fp-title">AI 대결</div>
+      <div class="fp-desc">동일 미션 수행 후 실력 비교 분석</div>
+    </div>
+    <div class="f-point">
+      <div class="fp-num">365</div>
+      <div class="fp-title">일 성장</div>
+      <div class="fp-desc">장기적 역량 개발과 실시간 랭킹</div>
+    </div>
+  </div>
+
+  <div class="f-cta">
+    <div class="fc-text">체험회 일정</div>
+    <div class="fc-date">2026. 04. 15 (수) 14:00</div>
+  </div>
+
+  <div class="f-footer">
+    <div class="ff-brand">BEYOND AI</div>
+    <div class="ff-contact">
+      contact@beyond-ai.co.kr<br>
+      02-1234-5678
+    </div>
+  </div>
+</div>
+
+<!-- ===== BACK (뒷면) ===== -->
+<div class="page-label">BACK (뒷면)</div>
+<div class="page back">
+  <div class="back-accent"></div>
+
+  <div class="back-header">
+    <div class="bh-logo">[B]</div>
+    <div class="bh-title">12 Quest Program</div>
+  </div>
+
+  <div class="section-label">12개 퀘스트 구성</div>
+  <div class="quest-grid">
+    <div class="quest-card">
+      <div class="qc-num">Q01</div>
+      <div class="qc-title">전략 기획</div>
+      <div class="qc-desc">비즈니스 전략 수립 및 실행 계획</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q02</div>
+      <div class="qc-title">데이터 분석</div>
+      <div class="qc-desc">데이터 기반 인사이트 도출</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q03</div>
+      <div class="qc-title">마케팅 캠페인</div>
+      <div class="qc-desc">캠페인 기획부터 성과 분석까지</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q04</div>
+      <div class="qc-title">프레젠테이션</div>
+      <div class="qc-desc">설득력 있는 발표 자료 제작</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q05</div>
+      <div class="qc-title">문제 해결</div>
+      <div class="qc-desc">복잡한 비즈니스 문제 해결</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q06</div>
+      <div class="qc-title">크리에이티브</div>
+      <div class="qc-desc">창의적 아이디어 발상과 실행</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q07</div>
+      <div class="qc-title">리더십</div>
+      <div class="qc-desc">팀 리딩 및 의사결정 역량</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q08</div>
+      <div class="qc-title">커뮤니케이션</div>
+      <div class="qc-desc">효과적 비즈니스 커뮤니케이션</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q09</div>
+      <div class="qc-title">프로젝트 관리</div>
+      <div class="qc-desc">프로젝트 계획 및 실행 관리</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q10</div>
+      <div class="qc-title">재무 분석</div>
+      <div class="qc-desc">재무제표 해석과 투자 판단</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q11</div>
+      <div class="qc-title">혁신 설계</div>
+      <div class="qc-desc">서비스/제품 혁신 설계</div>
+    </div>
+    <div class="quest-card">
+      <div class="qc-num">Q12</div>
+      <div class="qc-title">종합 전략</div>
+      <div class="qc-desc">12개월 성장의 최종 종합 미션</div>
+    </div>
+  </div>
+
+  <div class="structure-section">
+    <div class="structure-label">프로그램 타임라인</div>
+    <div class="timeline">
+      <div class="timeline-phase">
+        <div class="tp-period">M1-M3</div>
+        <div class="tp-name">기초 단계</div>
+        <div class="tp-desc">기본 역량 측정<br>AI 대결 적응</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="tp-period">M4-M6</div>
+        <div class="tp-name">성장 단계</div>
+        <div class="tp-desc">심화 퀘스트<br>전략적 사고 강화</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="tp-period">M7-M9</div>
+        <div class="tp-name">도약 단계</div>
+        <div class="tp-desc">복합 미션 수행<br>리더십 역량 개발</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="tp-period">M10-M12</div>
+        <div class="tp-name">마스터 단계</div>
+        <div class="tp-desc">종합 역량 발휘<br>최종 랭킹 결산</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="benefits-section">
+    <div class="benefits-label">도입 효과</div>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="bi-icon">📊</div>
+        <div class="bi-text">
+          <strong>정량적 성장 측정</strong>
+          AI와의 비교를 통한 객관적 역량 분석
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="bi-icon">🔥</div>
+        <div class="bi-text">
+          <strong>높은 참여율</strong>
+          게이미피케이션으로 자발적 학습 동기 유발
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="bi-icon">🏆</div>
+        <div class="bi-text">
+          <strong>경쟁과 협력</strong>
+          랭킹 시스템으로 건전한 경쟁 문화 조성
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="bi-icon">🎯</div>
+        <div class="bi-text">
+          <strong>실무 역량 강화</strong>
+          실제 업무 시나리오 기반 퀘스트 설계
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-cta">
+    <div class="bc-left">
+      <div class="bc-qr">QR<br>CODE</div>
+      <div class="bc-info">
+        <strong>체험회 참가 신청</strong><br>
+        2026.04.15 (수) 14:00 | 서울 강남<br>
+        무료 | 선착순 50명
+      </div>
+    </div>
+    <div class="bc-brand">[B]</div>
+  </div>
+
+  <div class="back-footer">
+    Beyond AI | 기업교육 with AI의 국내 유일, Unique 기업교육 크리에이터<br>
+    contact@beyond-ai.co.kr | 02-1234-5678
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Beyond AI - Story/Reel Banner (1080x1920)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .canvas {
+    width: 540px; /* scaled 50% for preview; actual 1080x1920 */
+    height: 960px;
+    background: #000000;
+    position: relative;
+    overflow: hidden;
+    color: #FFFFFF;
+    font-family: 'Inter', 'Pretendard', sans-serif;
+    transform-origin: top center;
+  }
+
+  .accent-top {
+    height: 8px;
+    background: #E6FF00;
+  }
+
+  /* Logo */
+  .logo-area {
+    padding: 24px 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #E6FF00;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 48px 32px 24px;
+    text-align: center;
+  }
+
+  .hero-overline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .hero-title .yellow { color: #E6FF00; }
+
+  .hero-sub {
+    font-size: 13px;
+    color: #CCCCCC;
+  }
+
+  /* Battle visual */
+  .battle-visual {
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .bv-side {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid #333;
+  }
+
+  .bv-side.human {
+    background: linear-gradient(180deg, rgba(0,102,255,0.12) 0%, transparent 100%);
+  }
+
+  .bv-side.ai {
+    background: linear-gradient(180deg, rgba(255,51,51,0.12) 0%, transparent 100%);
+  }
+
+  .bv-icon { font-size: 40px; margin-bottom: 4px; }
+
+  .bv-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .bv-side.human .bv-label { color: #0066FF; }
+  .bv-side.ai .bv-label { color: #FF3333; }
+
+  .bv-vs {
+    background: #E6FF00;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 8px 24px;
+    border: 2px solid #000;
+    z-index: 2;
+    margin: -4px 0;
+  }
+
+  /* Quest preview strip */
+  .quest-strip {
+    padding: 16px 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .qs-item {
+    background: #111;
+    border: 1px solid #333;
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .qs-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 9px;
+    color: #E6FF00;
+    margin-bottom: 2px;
+  }
+
+  .qs-name {
+    font-size: 10px;
+    color: #CCC;
+  }
+
+  /* Event info */
+  .event-block {
+    margin: 16px 32px;
+    border: 2px solid #333;
+    background: #111;
+  }
+
+  .eb-row {
+    display: flex;
+    padding: 10px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid #333;
+  }
+
+  .eb-row:last-child { border-bottom: none; }
+
+  .eb-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    color: #E6FF00;
+    width: 40px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .eb-val { flex: 1; color: #FFF; }
+
+  /* CTA */
+  .cta-area {
+    padding: 16px 32px;
+    text-align: center;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: #E6FF00;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 32px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 3px solid #000;
+    box-shadow: 3px 3px 0 #FFF;
+  }
+
+  .cta-note {
+    font-size: 10px;
+    color: #666;
+    margin-top: 8px;
+  }
+
+  /* Footer */
+  .story-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 32px;
+    background: #0A0A0A;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sf-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #FFF;
+  }
+
+  .sf-tags {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+<div class="canvas">
+  <div class="accent-top"></div>
+
+  <div class="logo-area">
+    <div class="logo-mark">[B]</div>
+    <div class="logo-text">BEYOND AI</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-overline">Experience Event</div>
+    <h1 class="hero-title">
+      사람 vs AI<br>
+      <span class="yellow">12개월의<br>성장 대결</span>
+    </h1>
+    <p class="hero-sub">AI를 넘어서는 진짜 실력을 키우다</p>
+  </div>
+
+  <div class="battle-visual">
+    <div class="bv-side human">
+      <div class="bv-icon">👤</div>
+      <div class="bv-label">Human</div>
+    </div>
+    <div class="bv-vs">VS</div>
+    <div class="bv-side ai">
+      <div class="bv-icon">🤖</div>
+      <div class="bv-label">AI</div>
+    </div>
+  </div>
+
+  <div class="quest-strip">
+    <div class="qs-item"><div class="qs-num">Q01</div><div class="qs-name">전략기획</div></div>
+    <div class="qs-item"><div class="qs-num">Q02</div><div class="qs-name">데이터분석</div></div>
+    <div class="qs-item"><div class="qs-num">Q03</div><div class="qs-name">마케팅</div></div>
+    <div class="qs-item"><div class="qs-num">Q04</div><div class="qs-name">프레젠테이션</div></div>
+    <div class="qs-item"><div class="qs-num">Q05</div><div class="qs-name">문제해결</div></div>
+    <div class="qs-item"><div class="qs-num">Q06</div><div class="qs-name">크리에이티브</div></div>
+  </div>
+
+  <div class="event-block">
+    <div class="eb-row">
+      <div class="eb-key">일시</div>
+      <div class="eb-val">2026.04.15 (수) 14:00</div>
+    </div>
+    <div class="eb-row">
+      <div class="eb-key">장소</div>
+      <div class="eb-val">서울 강남 컨퍼런스홀</div>
+    </div>
+    <div class="eb-row">
+      <div class="eb-key">정원</div>
+      <div class="eb-val">50명 (선착순)</div>
+    </div>
+  </div>
+
+  <div class="cta-area">
+    <div class="cta-btn">참가 신청</div>
+    <div class="cta-note">무료 참가 | 링크 in bio</div>
+  </div>
+
+  <div class="story-footer">
+    <div class="sf-brand">BEYOND AI</div>
+    <div class="sf-tags">#BeyondAI #사람vsAI</div>
+  </div>
+</div>
+
+</body>
+</html>

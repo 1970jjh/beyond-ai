@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond AI 체험회 초청장 (이메일용)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111111;
+    font-family: 'Inter', 'Pretendard', 'Helvetica Neue', sans-serif;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .email-container {
+    max-width: 600px;
+    width: 100%;
+    background: #000000;
+    border: 3px solid #FFFFFF;
+  }
+
+  /* Header */
+  .header {
+    background: #E6FF00;
+    color: #000000;
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 3px solid #000000;
+  }
+
+  .logo-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Invitation Badge */
+  .badge {
+    background: #000000;
+    color: #E6FF00;
+    padding: 0.5rem 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 1rem;
+    border: 2px solid #000000;
+  }
+
+  /* Content */
+  .content {
+    padding: 2.5rem 2rem;
+  }
+
+  .greeting {
+    font-size: 1rem;
+    color: #CCCCCC;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .main-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    color: #FFFFFF;
+  }
+
+  .main-title .accent {
+    color: #E6FF00;
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: #CCCCCC;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  /* Event Info */
+  .event-info {
+    border: 2px solid #333333;
+    margin-bottom: 2rem;
+  }
+
+  .event-row {
+    display: flex;
+    border-bottom: 2px solid #333333;
+    font-size: 0.9375rem;
+  }
+
+  .event-row:last-child {
+    border-bottom: none;
+  }
+
+  .event-label {
+    background: #1A1A1A;
+    padding: 1rem;
+    width: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    display: flex;
+    align-items: center;
+    border-right: 2px solid #333333;
+  }
+
+  .event-value {
+    padding: 1rem;
+    flex: 1;
+    color: #FFFFFF;
+    line-height: 1.4;
+  }
+
+  /* Battle Preview */
+  .battle-preview {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border: 2px solid #333333;
+  }
+
+  .battle-side {
+    flex: 1;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .battle-side.human {
+    background: rgba(0, 102, 255, 0.1);
+    border-right: 2px solid #333333;
+  }
+
+  .battle-side.ai {
+    background: rgba(255, 51, 51, 0.1);
+  }
+
+  .battle-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .battle-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .battle-side.human .battle-label { color: #0066FF; }
+  .battle-side.ai .battle-label { color: #FF3333; }
+
+  .vs-badge {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vs-text {
+    background: #E6FF00;
+    color: #000000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    z-index: 1;
+    border: 2px solid #000000;
+  }
+
+  /* Quest List */
+  .quest-section {
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #E6FF00;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #333333;
+  }
+
+  .quest-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .quest-item {
+    background: #1A1A1A;
+    padding: 0.75rem;
+    font-size: 0.8125rem;
+    border: 1px solid #333333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .quest-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.6875rem;
+    color: #E6FF00;
+    background: #000000;
+    padding: 0.125rem 0.375rem;
+    border: 1px solid #E6FF00;
+  }
+
+  /* CTA Button */
+  .cta-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: #E6FF00;
+    color: #000000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 3px solid #000000;
+    box-shadow: 4px 4px 0 #FFFFFF;
+    transition: all 200ms cubic-bezier(0.25, 0, 0, 1);
+  }
+
+  .cta-button:hover {
+    box-shadow: 2px 2px 0 #FFFFFF;
+    transform: translate(2px, 2px);
+  }
+
+  .cta-note {
+    font-size: 0.75rem;
+    color: #666666;
+    margin-top: 0.75rem;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 3px solid #333333;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    color: #666666;
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .footer .brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="email-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-mark">[B]</div>
+    <div class="logo-text">Beyond AI</div>
+    <div class="badge">Invitation</div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <p class="greeting">
+      안녕하세요, <strong>{이름}</strong>님.<br>
+      특별한 도전에 초대합니다.
+    </p>
+
+    <h1 class="main-title">
+      사람 vs AI,<br>
+      <span class="accent">12개월의 성장 대결</span>
+    </h1>
+    <p class="subtitle">
+      AI를 넘어서는 진짜 실력을 키우는<br>
+      Beyond AI 체험회에 초대합니다.
+    </p>
+
+    <!-- Event Info -->
+    <div class="event-info">
+      <div class="event-row">
+        <div class="event-label">일시</div>
+        <div class="event-value">2026년 4월 15일 (수) 14:00 - 17:00</div>
+      </div>
+      <div class="event-row">
+        <div class="event-label">장소</div>
+        <div class="event-value">서울 강남구 테헤란로 OOO<br>OO빌딩 3층 컨퍼런스홀</div>
+      </div>
+      <div class="event-row">
+        <div class="event-label">대상</div>
+        <div class="event-value">기업 교육 담당자, HR 리더, L&D 매니저</div>
+      </div>
+      <div class="event-row">
+        <div class="event-label">정원</div>
+        <div class="event-value">50명 (선착순 마감)</div>
+      </div>
+    </div>
+
+    <!-- Battle Preview -->
+    <div class="battle-preview">
+      <div class="battle-side human">
+        <div class="battle-icon">👤</div>
+        <div class="battle-label">사람</div>
+      </div>
+      <div class="vs-badge">
+        <span class="vs-text">VS</span>
+      </div>
+      <div class="battle-side ai">
+        <div class="battle-icon">🤖</div>
+        <div class="battle-label">AI</div>
+      </div>
+    </div>
+
+    <!-- Quest Preview -->
+    <div class="quest-section">
+      <div class="section-title">12 Quests Preview</div>
+      <div class="quest-grid">
+        <div class="quest-item"><span class="quest-num">Q1</span> 전략 기획</div>
+        <div class="quest-item"><span class="quest-num">Q2</span> 데이터 분석</div>
+        <div class="quest-item"><span class="quest-num">Q3</span> 마케팅 캠페인</div>
+        <div class="quest-item"><span class="quest-num">Q4</span> 프레젠테이션</div>
+        <div class="quest-item"><span class="quest-num">Q5</span> 문제 해결</div>
+        <div class="quest-item"><span class="quest-num">Q6</span> 크리에이티브</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <a href="#" class="cta-button">참가 신청하기</a>
+      <p class="cta-note">무료 참가 | 선착순 50명 마감</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="brand">BEYOND AI</div>
+    <p style="margin-top: 0.5rem;">기업교육 with AI의 국내 유일, Unique 기업교육 크리에이터</p>
+    <p style="margin-top: 0.5rem;">문의: contact@beyond-ai.co.kr | 02-1234-5678</p>
+    <p style="margin-top: 0.75rem; font-size: 0.6875rem; color: #666666;">
+      본 메일은 {이름}님께 발송된 초청장입니다.<br>
+      수신을 원치 않으시면 <a href="#" style="color: #E6FF00;">여기</a>를 클릭해 주세요.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

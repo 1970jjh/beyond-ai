@@ -39,3 +39,4 @@ class User(Base):
     point_transactions: Mapped[list["PointTransaction"]] = relationship(back_populates="user")  # noqa: F821
     user_badges: Mapped[list["UserBadge"]] = relationship(back_populates="user")  # noqa: F821
     leaderboard_entry: Mapped["LeaderboardEntry | None"] = relationship(back_populates="user")  # noqa: F821
+    battles: Mapped[list["Battle"]] = relationship(back_populates="user")  # noqa: F821

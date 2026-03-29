@@ -10,6 +10,7 @@ from app.models.enrollment import Enrollment, LessonProgress  # noqa: F401
 from app.models.gamification import Badge, LeaderboardEntry, PointTransaction, UserBadge  # noqa: F401
 from app.models.tenant import Tenant  # noqa: F401
 from app.models.user import User  # noqa: F401
+from app.models.battle import Battle, Team, TeamMember  # noqa: F401
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url_sync)

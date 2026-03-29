@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
 
+    gemini_api_key: str = ""
+    claude_api_key: str = ""
+
     cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
     model_config = {"env_prefix": "BEYOND_", "env_file": ".env"}

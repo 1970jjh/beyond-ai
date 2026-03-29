@@ -9,16 +9,15 @@ import clsx from 'clsx'
 
 export function QuestsPage() {
   const navigate = useNavigate()
-  const [completedIds, setCompletedIds] = useState<ReadonlyArray<string>>([])
-
-  useEffect(() => {
-    // Load from localStorage first
+  const [completedIds, setCompletedIds] = useState<ReadonlyArray<string>>(() => {
     try {
       const results = JSON.parse(localStorage.getItem('beyond-ai-results') || '[]')
-      setCompletedIds(results.map((r: { questId: string }) => r.questId))
-    } catch { /* ignore */ }
+      return results.map((r: { questId: string }) => r.questId)
+    } catch { return [] }
+  })
 
-    // Then try to enrich with API data
+  useEffect(() => {
+    // Try to enrich with API data
     const token = localStorage.getItem('access_token')
     if (!token) return
 

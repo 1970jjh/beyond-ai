@@ -14,13 +14,10 @@ export function BattlePrepPage() {
 
   const [countdown, setCountdown] = useState(3)
   const [started, setStarted] = useState(false)
-  const [showStart, setShowStart] = useState(false)
+  const showStart = countdown <= 0
 
   useEffect(() => {
-    if (countdown <= 0) {
-      setShowStart(true)
-      return
-    }
+    if (countdown <= 0) return
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
     return () => clearTimeout(timer)
   }, [countdown])

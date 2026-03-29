@@ -18,11 +18,11 @@ const DEFAULT_HINTS = [
 export function HelpButton({ hints = DEFAULT_HINTS, className }: HelpButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [currentHint, setCurrentHint] = useState<string | null>(null)
-  const { helpCount, maxHelps, useHelp } = useGameStore()
+  const { helpCount, maxHelps, useHelp: consumeHelp } = useGameStore()
   const remaining = maxHelps - helpCount
 
   const handleUseHelp = () => {
-    if (useHelp()) {
+    if (consumeHelp()) {
       const hintIndex = helpCount // helpCount was incremented inside useHelp
       setCurrentHint(hints[hintIndex % hints.length])
     }

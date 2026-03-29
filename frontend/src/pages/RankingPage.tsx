@@ -37,13 +37,12 @@ function mapApiToRanking(entries: ReadonlyArray<LeaderboardEntry>): ReadonlyArra
 
 export function RankingPage() {
   const [rankings, setRankings] = useState<ReadonlyArray<RankingRow>>(MOCK_RANKINGS)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(() => Boolean(localStorage.getItem('access_token')))
 
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     if (!token) return
 
-    setLoading(true)
     gamificationApi.leaderboard(20)
       .then((data) => {
         if (data.length > 0) {

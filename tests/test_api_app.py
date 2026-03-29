@@ -145,3 +145,79 @@ class TestRouteExistence:
     async def test_battle_routes_exist(self, client):
         resp = await client.post("/api/v1/battle/start")
         assert resp.status_code != 404
+
+
+# ---------------------------------------------------------------------------
+# Public battle endpoints (no auth required)
+# ---------------------------------------------------------------------------
+
+class TestPersonasEndpoint:
+    @pytest.mark.asyncio
+    async def test_list_all_personas(self, client):
+        resp = await client.get("/api/v1/battle/personas/all")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert isinstance(data, list)
+        assert len(data) == 12  # 12 AI personas
+
+    @pytest.mark.asyncio
+    async def test_each_persona_has_required_fields(self, client):
+        resp = await client.get("/api/v1/battle/personas/all")
+        for persona in resp.json():
+            assert "id" in persona
+            assert "name" in persona
+            assert "title" in persona
+            assert "personality" in persona
+            assert "expertise" in persona
+            assert "catchphrase" in persona
+            assert "strengths" in persona
+            assert "weaknesses" in persona
+
+    @pytest.mark.asyncio
+    async def test_get_persona_by_quest_id(self, client):
+        resp = await client.get("/api/v1/battle/personas/1")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["name"]  # non-empty name
+
+    @pytest.mark.asyncio
+    async def test_all_12_quest_personas_accessible(self, client):
+        for quest_id in range(1, 13):
+            resp = await client.get(f"/api/v1/battle/personas/{quest_id}")
+            assert resp.status_code == 200, f"Quest {quest_id} persona failed"
+
+
+class TestDifficultyEndpoint:
+    @pytest.mark.asyncio
+    async def test_beginner_difficulty(self, client):
+        resp = await client.get("/api/v1/battle/difficulty/beginner")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["level"] == "beginner"
+        assert "params" in data
+
+    @pytest.mark.asyncio
+    async def test_intermediate_difficulty(self, client):
+        resp = await client.get("/api/v1/battle/difficulty/intermediate")
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_advanced_difficulty(self, client):
+        resp = await client.get("/api/v1/battle/difficulty/advanced")
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_difficulty_params_have_required_fields(self, client):
+        resp = await client.get("/api/v1/battle/difficulty/beginner")
+        params = resp.json()["params"]
+        assert "temperature" in params
+        assert "max_tokens" in params
+        assert "thinking_depth" in params
+        assert "framework_usage" in params
+        assert "human_likeness" in params
+
+    @pytest.mark.asyncio
+    async def test_beginner_has_higher_temperature_than_advanced(self, client):
+        beginner = (await client.get("/api/v1/battle/difficulty/beginner")).json()
+        advanced = (await client.get("/api/v1/battle/difficulty/advanced")).json()
+        assert beginner["params"]["temperature"] >= advanced["params"]["temperature"]

@@ -4,9 +4,8 @@ import json
 import logging
 from typing import AsyncIterator
 
-import httpx
-
 from app.core.config import settings
+from app.core.http_client import get_http_client
 
 from .base import (
     AIProvider,
@@ -36,10 +35,10 @@ class GeminiProvider(AIProvider):
         url = f"{GEMINI_API_URL}/{self._model}:generateContent"
         headers = {"x-goog-api-key": self._api_key}
 
-        async with httpx.AsyncClient(timeout=120) as client:
-            resp = await client.post(url, json=payload, headers=headers)
-            resp.raise_for_status()
-            data = resp.json()
+        client = get_http_client("gemini")
+        resp = await client.post(url, json=payload, headers=headers)
+        resp.raise_for_status()
+        data = resp.json()
 
         text = _extract_text(data)
         tokens = data.get("usageMetadata", {}).get("totalTokenCount", 0)
@@ -72,22 +71,22 @@ class GeminiProvider(AIProvider):
                 progress=int((i + 1) / len(phases) * 100),
             )
 
-        async with httpx.AsyncClient(timeout=120) as client:
-            async with client.stream("POST", url, json=payload, headers=headers) as resp:
-                resp.raise_for_status()
-                async for line in resp.aiter_lines():
-                    if not line.startswith("data: "):
-                        continue
-                    raw = line[6:]
-                    if raw.strip() == "[DONE]":
-                        break
-                    try:
-                        chunk_data = json.loads(raw)
-                        text = _extract_text(chunk_data)
-                        if text:
-                            yield StreamChunk(chunk_type="content", content=text, progress=100)
-                    except (json.JSONDecodeError, KeyError):
-                        continue
+        client = get_http_client("gemini")
+        async with client.stream("POST", url, json=payload, headers=headers) as resp:
+            resp.raise_for_status()
+            async for line in resp.aiter_lines():
+                if not line.startswith("data: "):
+                    continue
+                raw = line[6:]
+                if raw.strip() == "[DONE]":
+                    break
+                try:
+                    chunk_data = json.loads(raw)
+                    text = _extract_text(chunk_data)
+                    if text:
+                        yield StreamChunk(chunk_type="content", content=text, progress=100)
+                except (json.JSONDecodeError, KeyError):
+                    continue
 
         yield StreamChunk(chunk_type="done", progress=100)
 

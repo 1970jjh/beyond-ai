@@ -4,9 +4,8 @@ import json
 import logging
 from typing import AsyncIterator
 
-import httpx
-
 from app.core.config import settings
+from app.core.http_client import get_http_client
 
 from .base import (
     AIProvider,
@@ -41,10 +40,10 @@ class ClaudeProvider(AIProvider):
     async def generate(self, request: AIRequest) -> AIResponse:
         payload = _build_payload(request, stream=False)
 
-        async with httpx.AsyncClient(timeout=120) as client:
-            resp = await client.post(CLAUDE_API_URL, headers=self._headers(), json=payload)
-            resp.raise_for_status()
-            data = resp.json()
+        client = get_http_client("claude")
+        resp = await client.post(CLAUDE_API_URL, headers=self._headers(), json=payload)
+        resp.raise_for_status()
+        data = resp.json()
 
         text = _extract_text(data)
         tokens = data.get("usage", {}).get("input_tokens", 0) + data.get("usage", {}).get("output_tokens", 0)
@@ -65,52 +64,52 @@ class ClaudeProvider(AIProvider):
         phases = ("understanding", "analyzing", "generating", "evaluating", "refining")
         phase_titles = ("과제 이해", "데이터 분석", "초안 생성", "자체 평가", "최종 정제")
 
-        async with httpx.AsyncClient(timeout=120) as client:
-            async with client.stream(
-                "POST", CLAUDE_API_URL, headers=self._headers(), json=payload
-            ) as resp:
-                resp.raise_for_status()
-                current_phase = 0
-                buffer = ""
+        client = get_http_client("claude")
+        async with client.stream(
+            "POST", CLAUDE_API_URL, headers=self._headers(), json=payload
+        ) as resp:
+            resp.raise_for_status()
+            current_phase = 0
+            buffer = ""
 
-                async for line in resp.aiter_lines():
-                    if not line.startswith("data: "):
-                        continue
-                    raw = line[6:]
-                    try:
-                        event = json.loads(raw)
-                    except json.JSONDecodeError:
-                        continue
+            async for line in resp.aiter_lines():
+                if not line.startswith("data: "):
+                    continue
+                raw = line[6:]
+                try:
+                    event = json.loads(raw)
+                except json.JSONDecodeError:
+                    continue
 
-                    event_type = event.get("type", "")
+                event_type = event.get("type", "")
 
-                    if event_type == "content_block_start":
-                        block = event.get("content_block", {})
-                        if block.get("type") == "thinking" and current_phase < len(phases):
-                            phase = phases[current_phase]
-                            title = phase_titles[current_phase]
-                            yield StreamChunk(
-                                chunk_type="thinking",
-                                thinking_step=ThinkingStep(
-                                    phase=phase,
-                                    title=f"{title} 중...",
-                                    description=f"AI가 {title} 단계를 수행하고 있습니다",
-                                    thinking="",
-                                    progress=int((current_phase + 1) / len(phases) * 100),
-                                ),
+                if event_type == "content_block_start":
+                    block = event.get("content_block", {})
+                    if block.get("type") == "thinking" and current_phase < len(phases):
+                        phase = phases[current_phase]
+                        title = phase_titles[current_phase]
+                        yield StreamChunk(
+                            chunk_type="thinking",
+                            thinking_step=ThinkingStep(
+                                phase=phase,
+                                title=f"{title} 중...",
+                                description=f"AI가 {title} 단계를 수행하고 있습니다",
+                                thinking="",
                                 progress=int((current_phase + 1) / len(phases) * 100),
-                            )
-                            current_phase += 1
+                            ),
+                            progress=int((current_phase + 1) / len(phases) * 100),
+                        )
+                        current_phase += 1
 
-                    elif event_type == "content_block_delta":
-                        delta = event.get("delta", {})
-                        if delta.get("type") == "text_delta":
-                            text = delta.get("text", "")
-                            buffer += text
-                            yield StreamChunk(chunk_type="content", content=text, progress=100)
+                elif event_type == "content_block_delta":
+                    delta = event.get("delta", {})
+                    if delta.get("type") == "text_delta":
+                        text = delta.get("text", "")
+                        buffer += text
+                        yield StreamChunk(chunk_type="content", content=text, progress=100)
 
-                    elif event_type == "message_stop":
-                        break
+                elif event_type == "message_stop":
+                    break
 
         yield StreamChunk(chunk_type="done", progress=100)
 

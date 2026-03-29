@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import logging
 import uuid
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -26,6 +27,7 @@ from app.ai.router import TaskType, get_ai_router
 from app.ai.scoring import calculate_mode_penalty, score_battle
 from app.core.database import get_db
 from app.core.deps import get_current_user
+from app.core.rate_limit import limiter
 from app.models.battle import Battle, BattleMode, BattleResult, BattleStatus
 from app.models.user import User
 from app.schemas.battle import (
@@ -44,27 +46,14 @@ from app.schemas.battle import (
     ThinkingStepResponse,
 )
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter(prefix="/battle", tags=["battle"])
 
 
-@router.post("/start", response_model=BattleResponse, status_code=201)
-async def start_battle(
-    body: BattleStartRequest,
-    db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-):
-    battle = Battle(
-        quest_id=body.quest_id,
-        user_id=current_user.id,
-        task_description=body.task_description,
-        difficulty=body.difficulty,
-        time_limit_sec=body.time_limit_sec,
-        status=BattleStatus.IN_PROGRESS,
-        started_at=datetime.now(UTC),
-    )
-    db.add(battle)
-    await db.flush()
-    await db.refresh(battle)
+async def _generate_ai_submission(battle_id: uuid.UUID, body: BattleStartRequest) -> None:
+    """Background task: generate AI submission and persist it."""
+    from app.core.database import async_session_factory
 
     prompt_config = QuestPromptConfig(
         quest_id=body.quest_id,
@@ -81,15 +70,47 @@ async def start_battle(
         task_type=TaskType.GENERATE,
     )
 
-    try:
-        response = await provider.generate(ai_request)
-        battle.ai_submission = response.content
-        battle.ai_provider = response.provider.value
-    except Exception:
-        battle.ai_submission = None
-        battle.ai_provider = None
+    async with async_session_factory() as db:
+        result = await db.execute(select(Battle).where(Battle.id == battle_id))
+        battle = result.scalar_one_or_none()
+        if battle is None:
+            return
 
+        try:
+            response = await provider.generate(ai_request)
+            battle.ai_submission = response.content
+            battle.ai_provider = response.provider.value
+        except Exception:
+            logger.exception("AI generation failed for battle %s", battle_id)
+            battle.ai_submission = None
+            battle.ai_provider = None
+
+        await db.commit()
+
+
+@router.post("/start", response_model=BattleResponse, status_code=201)
+@limiter.limit("10/minute")
+async def start_battle(
+    request: Request,
+    body: BattleStartRequest,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    battle = Battle(
+        quest_id=body.quest_id,
+        user_id=current_user.id,
+        task_description=body.task_description,
+        difficulty=body.difficulty,
+        time_limit_sec=body.time_limit_sec,
+        status=BattleStatus.IN_PROGRESS,
+        started_at=datetime.now(UTC),
+    )
+    db.add(battle)
     await db.flush()
+    await db.refresh(battle)
+
+    background_tasks.add_task(_generate_ai_submission, battle.id, body)
 
     return _to_response(battle)
 

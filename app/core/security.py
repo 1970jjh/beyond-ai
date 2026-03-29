@@ -39,3 +39,18 @@ def decode_token(token: str) -> dict | None:
         return jwt.decode(token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
     except JWTError:
         return None
+
+
+# Role hierarchy for permission checks (GWS auth)
+ROLE_HIERARCHY: dict[str, int] = {
+    "super_admin": 3,
+    "admin": 2,
+    "learner": 1,
+}
+
+
+def has_permission(user_role: str, required_role: str) -> bool:
+    """Check if user_role meets or exceeds required_role in hierarchy."""
+    user_level = ROLE_HIERARCHY.get(user_role, 0)
+    required_level = ROLE_HIERARCHY.get(required_role, 0)
+    return user_level >= required_level

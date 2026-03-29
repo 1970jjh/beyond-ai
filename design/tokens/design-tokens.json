@@ -1,0 +1,102 @@
+{
+  "color": {
+    "primary": {
+      "black": { "value": "#000000" },
+      "white": { "value": "#FFFFFF" },
+      "accent": { "value": "#E6FF00", "description": "Electric Yellow" }
+    },
+    "battle": {
+      "human": { "value": "#0066FF", "description": "사람 팀" },
+      "ai": { "value": "#FF3333", "description": "AI 팀" }
+    },
+    "semantic": {
+      "success": { "value": "#00CC66" },
+      "warning": { "value": "#FF9900" },
+      "error": { "value": "#FF3333" },
+      "info": { "value": "#3399FF" }
+    },
+    "neutral": {
+      "900": { "value": "#111111" },
+      "800": { "value": "#1A1A1A" },
+      "700": { "value": "#333333" },
+      "500": { "value": "#666666" },
+      "300": { "value": "#CCCCCC" },
+      "100": { "value": "#F2F2F2" }
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "display": { "value": "'Space Grotesk', 'Arial', sans-serif" },
+      "body": { "value": "'Inter', 'Pretendard', 'Helvetica Neue', sans-serif" },
+      "mono": { "value": "'JetBrains Mono', 'Consolas', monospace" }
+    },
+    "fontSize": {
+      "display": { "value": "4.5rem" },
+      "h1": { "value": "3rem" },
+      "h2": { "value": "2.25rem" },
+      "h3": { "value": "1.5rem" },
+      "h4": { "value": "1.25rem" },
+      "bodyLg": { "value": "1.125rem" },
+      "body": { "value": "1rem" },
+      "bodySm": { "value": "0.875rem" },
+      "caption": { "value": "0.75rem" },
+      "overline": { "value": "0.6875rem" }
+    },
+    "fontWeight": {
+      "regular": { "value": 400 },
+      "medium": { "value": 500 },
+      "semibold": { "value": 600 },
+      "bold": { "value": 700 }
+    }
+  },
+  "spacing": {
+    "1": { "value": "0.25rem" },
+    "2": { "value": "0.5rem" },
+    "3": { "value": "0.75rem" },
+    "4": { "value": "1rem" },
+    "6": { "value": "1.5rem" },
+    "8": { "value": "2rem" },
+    "10": { "value": "2.5rem" },
+    "12": { "value": "3rem" },
+    "16": { "value": "4rem" },
+    "20": { "value": "5rem" }
+  },
+  "shadow": {
+    "sm": { "value": "2px 2px 0 #000000" },
+    "md": { "value": "4px 4px 0 #000000" },
+    "lg": { "value": "8px 8px 0 #000000" }
+  },
+  "border": {
+    "width": {
+      "thin": { "value": "1px" },
+      "default": { "value": "2px" },
+      "thick": { "value": "3px" },
+      "heavy": { "value": "4px" }
+    },
+    "radius": {
+      "none": { "value": "0" },
+      "sm": { "value": "2px" },
+      "md": { "value": "4px" }
+    }
+  },
+  "motion": {
+    "duration": {
+      "micro": { "value": "100ms" },
+      "standard": { "value": "200ms" },
+      "complex": { "value": "300ms" },
+      "score": { "value": "400ms" }
+    },
+    "easing": {
+      "default": { "value": "cubic-bezier(0.25, 0, 0, 1)" },
+      "bounce": { "value": "cubic-bezier(0.68, -0.55, 0.27, 1.55)" },
+      "sharp": { "value": "cubic-bezier(0, 0, 0.2, 1)" }
+    }
+  },
+  "breakpoint": {
+    "sm": { "value": "640px" },
+    "md": { "value": "768px" },
+    "lg": { "value": "1024px" },
+    "xl": { "value": "1280px" },
+    "2xl": { "value": "1440px" }
+  }
+}

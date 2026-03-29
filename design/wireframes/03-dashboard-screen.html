@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 대시보드 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .dashboard-page {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .dashboard-main {
+      margin-left: 280px;
+      flex: 1;
+      padding: var(--space-8);
+    }
+
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-8);
+    }
+
+    .user-greeting {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .user-avatar {
+      width: 56px;
+      height: 56px;
+      background: var(--color-accent);
+      color: var(--color-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-bold);
+      border: var(--border-3) solid var(--color-black);
+    }
+
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      border: var(--border-2) solid var(--color-warning);
+      font-family: var(--font-mono);
+      font-size: var(--text-body-sm);
+      font-weight: var(--weight-bold);
+      color: var(--color-warning);
+    }
+
+    /* Summary Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+
+    .stat-card {
+      padding: var(--space-6);
+      border: var(--border-3) solid var(--border-default);
+    }
+
+    .stat-card-overline {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .stat-card-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-h1);
+      font-weight: var(--weight-bold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-card-change {
+      font-family: var(--font-mono);
+      font-size: var(--text-body-sm);
+      margin-top: var(--space-1);
+    }
+
+    .change-positive { color: var(--color-success); }
+    .change-negative { color: var(--color-error); }
+
+    /* Battle Record */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+
+    /* Battle Win/Loss Chart Placeholder */
+    .chart-container {
+      padding: var(--space-6);
+      border: var(--border-3) solid var(--border-default);
+      min-height: 300px;
+    }
+
+    .chart-placeholder {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .chart-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: var(--weight-bold);
+      margin-bottom: var(--space-4);
+    }
+
+    .chart-bars {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+    }
+
+    .chart-bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .chart-bar-pair {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+      height: 200px;
+      width: 100%;
+    }
+
+    .chart-bar {
+      flex: 1;
+      min-height: 4px;
+      transition: height var(--duration-complex) var(--ease-default);
+    }
+
+    .chart-bar-human { background: var(--color-human); }
+    .chart-bar-ai { background: var(--color-ai); }
+
+    .chart-bar-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      color: var(--text-muted);
+    }
+
+    /* Growth Graph Placeholder */
+    .growth-area {
+      flex: 1;
+      position: relative;
+      border-bottom: var(--border-2) solid var(--border-default);
+      border-left: var(--border-2) solid var(--border-default);
+      min-height: 200px;
+      margin-top: var(--space-4);
+    }
+
+    .growth-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        transparent 8%,
+        var(--color-accent) 8%,
+        var(--color-accent) 8.5%,
+        transparent 8.5%,
+        transparent 16%,
+        var(--color-accent) 16%,
+        var(--color-accent) 16.5%,
+        transparent 16.5%
+      );
+      opacity: 0.1;
+    }
+
+    .growth-path {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .growth-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Ranking Preview */
+    .ranking-preview {
+      border: var(--border-3) solid var(--border-default);
+      padding: var(--space-6);
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: var(--border-1) solid var(--border-default);
+    }
+
+    .ranking-row:last-child {
+      border-bottom: none;
+    }
+
+    .rank-num {
+      font-family: var(--font-mono);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-h4);
+      text-align: center;
+    }
+
+    .rank-1 { color: var(--color-accent); }
+    .rank-2 { color: var(--color-gray-300); }
+    .rank-3 { color: #CD7F32; }
+
+    .rank-user {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .rank-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--color-gray-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-caption);
+      font-weight: var(--weight-bold);
+    }
+
+    .rank-name {
+      font-weight: var(--weight-semibold);
+    }
+
+    .rank-me {
+      color: var(--color-accent);
+    }
+
+    .rank-score {
+      font-family: var(--font-mono);
+      font-weight: var(--weight-bold);
+      font-variant-numeric: tabular-nums;
+      color: var(--color-accent);
+    }
+
+    /* Recent Activity */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      border-bottom: var(--border-1) solid var(--border-default);
+    }
+
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: var(--border-2) solid var(--border-default);
+      font-size: var(--text-body);
+      flex-shrink: 0;
+    }
+
+    .activity-text {
+      flex: 1;
+      font-size: var(--text-body-sm);
+    }
+
+    .activity-time {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+
+    .activity-points {
+      font-family: var(--font-mono);
+      font-size: var(--text-body-sm);
+      font-weight: var(--weight-bold);
+      color: var(--color-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-page">
+    <!-- Sidebar -->
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item">&#9876; 대결</a>
+      <a href="#" class="nav-item">&#127919; 퀘스트</a>
+      <a href="#" class="nav-item nav-item--active">&#128200; 대시보드</a>
+      <a href="#" class="nav-item">&#127942; 랭킹</a>
+      <div class="nav-section">내 정보</div>
+      <a href="#" class="nav-item">&#128100; 프로필</a>
+      <a href="#" class="nav-item">&#127941; 배지</a>
+      <a href="#" class="nav-item">&#9881; 설정</a>
+    </nav>
+
+    <!-- Main -->
+    <main class="dashboard-main">
+      <!-- Header -->
+      <header class="dashboard-header">
+        <div class="user-greeting">
+          <div class="user-avatar">K</div>
+          <div>
+            <div class="text-h2">안녕하세요, 김민수님</div>
+            <div class="text-body-sm" style="color: var(--text-secondary);">Month 3 / 12 &middot; 마케팅 & 브랜딩</div>
+          </div>
+        </div>
+        <div class="streak-badge">&#128293; 14일 연속 스트릭</div>
+      </header>
+
+      <!-- Summary Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-overline">총 포인트</div>
+          <div class="stat-card-value" style="color: var(--color-accent);">2,450</div>
+          <div class="stat-card-change change-positive">+350 이번 달</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-overline">대결 전적</div>
+          <div class="stat-card-value">8W 4L</div>
+          <div class="stat-card-change change-positive">승률 67%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-overline">퀘스트 완료</div>
+          <div class="stat-card-value">13<span style="font-size: var(--text-h3); color: var(--text-muted);">/36</span></div>
+          <div class="stat-card-change">진행률 36%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-overline">전체 랭킹</div>
+          <div class="stat-card-value">#3</div>
+          <div class="stat-card-change change-positive">&uarr;2 지난 달 대비</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="dashboard-grid">
+        <!-- Monthly Battle Chart -->
+        <div class="chart-container">
+          <div class="chart-placeholder">
+            <div class="chart-title">월별 대결 성과</div>
+            <div style="display: flex; gap: var(--space-4); margin-bottom: var(--space-3);">
+              <span class="badge badge-human">사람</span>
+              <span class="badge badge-ai">AI</span>
+            </div>
+            <div class="chart-bars">
+              <div class="chart-bar-group">
+                <div class="chart-bar-pair">
+                  <div class="chart-bar chart-bar-human" style="height: 60%;"></div>
+                  <div class="chart-bar chart-bar-ai" style="height: 80%;"></div>
+                </div>
+                <div class="chart-bar-label">1월</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar-pair">
+                  <div class="chart-bar chart-bar-human" style="height: 70%;"></div>
+                  <div class="chart-bar chart-bar-ai" style="height: 75%;"></div>
+                </div>
+                <div class="chart-bar-label">2월</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar-pair">
+                  <div class="chart-bar chart-bar-human" style="height: 85%;"></div>
+                  <div class="chart-bar chart-bar-ai" style="height: 78%;"></div>
+                </div>
+                <div class="chart-bar-label">3월</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar-pair">
+                  <div class="chart-bar chart-bar-human" style="height: 40%; opacity: 0.3;"></div>
+                  <div class="chart-bar chart-bar-ai" style="height: 40%; opacity: 0.3;"></div>
+                </div>
+                <div class="chart-bar-label" style="opacity: 0.3;">4월</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Growth Graph -->
+        <div class="chart-container">
+          <div class="chart-placeholder">
+            <div class="chart-title">성장 그래프</div>
+            <div class="growth-area">
+              <svg class="growth-svg" viewBox="0 0 400 200" preserveAspectRatio="none">
+                <!-- Grid lines -->
+                <line x1="0" y1="50" x2="400" y2="50" stroke="#333333" stroke-width="1" stroke-dasharray="4"/>
+                <line x1="0" y1="100" x2="400" y2="100" stroke="#333333" stroke-width="1" stroke-dasharray="4"/>
+                <line x1="0" y1="150" x2="400" y2="150" stroke="#333333" stroke-width="1" stroke-dasharray="4"/>
+                <!-- Human line -->
+                <polyline
+                  fill="none"
+                  stroke="#0066FF"
+                  stroke-width="3"
+                  points="0,180 50,170 100,150 150,130 200,110 250,80 300,60"
+                />
+                <!-- AI line -->
+                <polyline
+                  fill="none"
+                  stroke="#FF3333"
+                  stroke-width="3"
+                  stroke-dasharray="8,4"
+                  points="0,160 50,140 100,120 150,100 200,85 250,70 300,55"
+                />
+                <!-- Current point -->
+                <circle cx="300" cy="60" r="6" fill="#0066FF" stroke="#FFFFFF" stroke-width="2"/>
+                <circle cx="300" cy="55" r="6" fill="#FF3333" stroke="#FFFFFF" stroke-width="2"/>
+              </svg>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: var(--space-2);">
+              <span class="text-caption" style="color: var(--text-muted);">1월</span>
+              <span class="text-caption" style="color: var(--text-muted);">현재 (3월)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Ranking + Activity -->
+      <div class="dashboard-grid">
+        <!-- Ranking Preview -->
+        <div class="ranking-preview">
+          <div class="section-header">
+            <div class="chart-title">실시간 랭킹</div>
+            <button class="btn btn-ghost btn-sm">전체보기 &rarr;</button>
+          </div>
+          <div class="ranking-row">
+            <div class="rank-num rank-1">1</div>
+            <div class="rank-user">
+              <div class="rank-avatar">P</div>
+              <span class="rank-name">박지영</span>
+            </div>
+            <span class="rank-score">3,200</span>
+          </div>
+          <div class="ranking-row">
+            <div class="rank-num rank-2">2</div>
+            <div class="rank-user">
+              <div class="rank-avatar">L</div>
+              <span class="rank-name">이준호</span>
+            </div>
+            <span class="rank-score">2,890</span>
+          </div>
+          <div class="ranking-row" style="background: rgba(230, 255, 0, 0.05);">
+            <div class="rank-num rank-3">3</div>
+            <div class="rank-user">
+              <div class="rank-avatar" style="background: var(--color-accent); color: var(--color-black);">K</div>
+              <span class="rank-name rank-me">김민수 (나)</span>
+            </div>
+            <span class="rank-score">2,450</span>
+          </div>
+          <div class="ranking-row">
+            <div class="rank-num">4</div>
+            <div class="rank-user">
+              <div class="rank-avatar">C</div>
+              <span class="rank-name">최서연</span>
+            </div>
+            <span class="rank-score">2,100</span>
+          </div>
+          <div class="ranking-row">
+            <div class="rank-num">5</div>
+            <div class="rank-user">
+              <div class="rank-avatar">J</div>
+              <span class="rank-name">정우진</span>
+            </div>
+            <span class="rank-score">1,850</span>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="ranking-preview">
+          <div class="section-header">
+            <div class="chart-title">최근 활동</div>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon" style="border-color: var(--color-success);">&#10003;</div>
+              <div class="activity-text">퀘스트 #03 완료 — 마케팅 전략 수립</div>
+              <div class="activity-points">+200</div>
+              <div class="activity-time">2시간 전</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="border-color: var(--color-human);">&#9876;</div>
+              <div class="activity-text">대결 승리 — AI 대비 정확성 +12%</div>
+              <div class="activity-points">+50</div>
+              <div class="activity-time">2시간 전</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="border-color: var(--color-accent);">&#127941;</div>
+              <div class="activity-text">새 배지 획득 — "전략가"</div>
+              <div class="activity-points">+100</div>
+              <div class="activity-time">2시간 전</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="border-color: var(--color-ai);">&#9876;</div>
+              <div class="activity-text">대결 패배 — 고객 페르소나 작성</div>
+              <div class="activity-points">+100</div>
+              <div class="activity-time">어제</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="border-color: var(--color-success);">&#10003;</div>
+              <div class="activity-text">퀘스트 #02 완료 — 고객 페르소나</div>
+              <div class="activity-points">+100</div>
+              <div class="activity-time">어제</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

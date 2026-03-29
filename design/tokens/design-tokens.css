@@ -1,0 +1,174 @@
+/*
+ * Beyond AI Design Tokens
+ * Brutalism UI Design System
+ *
+ * Usage: @import './design-tokens.css';
+ * All tokens are CSS custom properties on :root
+ */
+
+:root {
+  /* ===========================
+   * COLOR TOKENS
+   * =========================== */
+
+  /* Primary */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-accent: #E6FF00;       /* Electric Yellow */
+
+  /* Battle Colors */
+  --color-human: #0066FF;         /* 사람 팀 */
+  --color-ai: #FF3333;            /* AI 팀 */
+
+  /* Semantic */
+  --color-success: #00CC66;
+  --color-warning: #FF9900;
+  --color-error: #FF3333;
+  --color-info: #3399FF;
+
+  /* Neutral Scale */
+  --color-gray-900: #111111;
+  --color-gray-800: #1A1A1A;
+  --color-gray-700: #333333;
+  --color-gray-500: #666666;
+  --color-gray-300: #CCCCCC;
+  --color-gray-100: #F2F2F2;
+
+  /* Background */
+  --bg-primary: var(--color-black);
+  --bg-secondary: var(--color-gray-900);
+  --bg-card: var(--color-gray-800);
+  --bg-elevated: var(--color-gray-700);
+
+  /* Text */
+  --text-primary: var(--color-white);
+  --text-secondary: var(--color-gray-300);
+  --text-muted: var(--color-gray-500);
+  --text-accent: var(--color-accent);
+  --text-inverse: var(--color-black);
+
+  /* Border */
+  --border-default: var(--color-gray-700);
+  --border-strong: var(--color-white);
+  --border-accent: var(--color-accent);
+
+  /* ===========================
+   * TYPOGRAPHY TOKENS
+   * =========================== */
+
+  /* Font Families */
+  --font-display: 'Space Grotesk', 'Arial', sans-serif;
+  --font-body: 'Inter', 'Pretendard', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  /* Font Sizes */
+  --text-display: 4.5rem;    /* 72px */
+  --text-h1: 3rem;           /* 48px */
+  --text-h2: 2.25rem;        /* 36px */
+  --text-h3: 1.5rem;         /* 24px */
+  --text-h4: 1.25rem;        /* 20px */
+  --text-body-lg: 1.125rem;  /* 18px */
+  --text-body: 1rem;         /* 16px */
+  --text-body-sm: 0.875rem;  /* 14px */
+  --text-caption: 0.75rem;   /* 12px */
+  --text-overline: 0.6875rem; /* 11px */
+
+  /* Font Weights */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-heading: 1.2;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em;
+  --tracking-wider: 0.1em;
+
+  /* ===========================
+   * SPACING TOKENS
+   * =========================== */
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+
+  /* ===========================
+   * LAYOUT TOKENS
+   * =========================== */
+
+  /* Border Radius — Brutalism: mostly sharp */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Border Width — Brutalism: thick borders */
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-3: 3px;
+  --border-4: 4px;
+
+  /* Shadows — Brutalism: hard shadows, no blur */
+  --shadow-sm: 2px 2px 0 var(--color-black);
+  --shadow-md: 4px 4px 0 var(--color-black);
+  --shadow-lg: 8px 8px 0 var(--color-black);
+  --shadow-accent: 4px 4px 0 var(--color-accent);
+  --shadow-human: 4px 4px 0 var(--color-human);
+  --shadow-ai: 4px 4px 0 var(--color-ai);
+
+  /* Container Widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1440px;
+
+  /* ===========================
+   * MOTION TOKENS
+   * =========================== */
+  --duration-micro: 100ms;
+  --duration-standard: 200ms;
+  --duration-complex: 300ms;
+  --duration-score: 400ms;
+
+  --ease-default: cubic-bezier(0.25, 0, 0, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  --ease-sharp: cubic-bezier(0, 0, 0.2, 1);
+
+  /* ===========================
+   * Z-INDEX SCALE
+   * =========================== */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+
+  /* ===========================
+   * BREAKPOINTS (for reference, use in @media)
+   * =========================== */
+  /* --bp-sm: 640px;   Mobile landscape */
+  /* --bp-md: 768px;   Tablet */
+  /* --bp-lg: 1024px;  Desktop */
+  /* --bp-xl: 1280px;  Wide desktop */
+  /* --bp-2xl: 1440px; Ultra wide */
+}

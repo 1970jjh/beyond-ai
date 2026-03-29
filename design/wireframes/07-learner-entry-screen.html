@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 학습자 입장 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .entry-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-8);
+    }
+    .entry-card { max-width: 480px; width: 100%; text-align: center; }
+    .logo-small {
+      display: inline-block;
+      background: var(--color-accent);
+      color: var(--color-black);
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-bold);
+      padding: var(--space-2) var(--space-4);
+      border: var(--border-4) solid var(--color-black);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-8);
+    }
+    .entry-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: var(--weight-bold);
+      margin-bottom: var(--space-2);
+    }
+    .entry-subtitle {
+      color: var(--text-secondary);
+      font-size: var(--text-body-lg);
+      margin-bottom: var(--space-10);
+    }
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    .code-box {
+      width: 64px;
+      height: 80px;
+      border: var(--border-4) solid var(--border-default);
+      font-family: var(--font-mono);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+      text-align: center;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .code-box:focus {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-accent);
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin: var(--space-8) 0;
+    }
+    .divider-line { flex: 1; height: 2px; background: var(--border-default); }
+    .divider-text { font-family: var(--font-mono); font-size: var(--text-caption); color: var(--text-muted); }
+    .admin-link {
+      margin-top: var(--space-8);
+      font-family: var(--font-display);
+      font-size: var(--text-body-sm);
+      font-weight: var(--weight-bold);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+    .admin-link:hover { color: var(--text-primary); }
+  </style>
+</head>
+<body>
+  <div class="entry-page">
+    <div class="entry-card">
+      <div class="logo-small">[B]</div>
+      <h1 class="entry-title">대결 참여</h1>
+      <p class="entry-subtitle">방 코드를 입력하여 대결에 참여하세요</p>
+
+      <div class="code-inputs">
+        <input class="code-box" type="text" maxlength="1" value="A">
+        <input class="code-box" type="text" maxlength="1" value="B">
+        <input class="code-box" type="text" maxlength="1" value="3">
+        <input class="code-box" type="text" maxlength="1" value="X">
+        <input class="code-box" type="text" maxlength="1">
+        <input class="code-box" type="text" maxlength="1">
+      </div>
+
+      <button class="btn btn-primary btn-lg" style="width: 100%;">참여하기 &rarr;</button>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">또는</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="btn btn-secondary" style="width: 100%;">&#128247; QR 코드 스캔</button>
+
+      <p class="admin-link">관리자이신가요? 방 개설하기 &rarr;</p>
+    </div>
+  </div>
+</body>
+</html>

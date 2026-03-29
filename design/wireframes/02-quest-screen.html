@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 퀘스트 선택/진행 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .quest-page {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .quest-main {
+      margin-left: 280px;
+      flex: 1;
+      padding: var(--space-8);
+    }
+
+    .quest-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .quest-month-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .month-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-bold);
+      color: var(--color-accent);
+    }
+
+    .month-progress {
+      flex: 1;
+    }
+
+    .month-progress-bar {
+      height: 12px;
+      background: var(--bg-elevated);
+      border: var(--border-2) solid var(--border-default);
+    }
+
+    .month-progress-fill {
+      height: 100%;
+      background: var(--color-accent);
+      width: 60%;
+    }
+
+    .month-stats {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+
+    .quest-grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: var(--space-8);
+    }
+
+    .quest-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .quest-item {
+      display: grid;
+      grid-template-columns: 80px 1fr 120px;
+      gap: var(--space-4);
+      align-items: center;
+      padding: var(--space-5) var(--space-6);
+      border: var(--border-3) solid var(--border-default);
+      cursor: pointer;
+      transition: border-color var(--duration-micro) var(--ease-sharp),
+                  box-shadow var(--duration-micro) var(--ease-sharp);
+    }
+
+    .quest-item:hover {
+      border-color: var(--color-accent);
+    }
+
+    .quest-item--active {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-accent);
+    }
+
+    .quest-item--completed {
+      border-color: var(--color-success);
+      opacity: 0.6;
+    }
+
+    .quest-item--locked {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .quest-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-h1);
+      font-weight: var(--weight-bold);
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .quest-item--active .quest-num {
+      color: var(--color-accent);
+    }
+
+    .quest-item--completed .quest-num {
+      color: var(--color-success);
+    }
+
+    .quest-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .quest-item-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: var(--weight-bold);
+    }
+
+    .quest-item-desc {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+
+    .quest-item-meta {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-1);
+    }
+
+    .quest-reward {
+      text-align: right;
+    }
+
+    .quest-reward-pts {
+      font-family: var(--font-mono);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-bold);
+      color: var(--color-accent);
+    }
+
+    .quest-reward-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Detail Sidebar */
+    .quest-detail {
+      border: var(--border-3) solid var(--color-accent);
+      padding: var(--space-6);
+      position: sticky;
+      top: var(--space-8);
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+    }
+
+    .detail-header {
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4);
+      border-bottom: var(--border-2) solid var(--border-default);
+    }
+
+    .detail-overline {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+    }
+
+    .detail-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+      margin-top: var(--space-2);
+    }
+
+    .detail-desc {
+      font-size: var(--text-body);
+      color: var(--text-secondary);
+      margin-top: var(--space-3);
+      line-height: var(--leading-relaxed);
+    }
+
+    .detail-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .detail-stat {
+      padding: var(--space-3);
+      border: var(--border-2) solid var(--border-default);
+      text-align: center;
+    }
+
+    .detail-stat-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-h3);
+      font-weight: var(--weight-bold);
+    }
+
+    .detail-stat-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    .detail-objectives {
+      margin-bottom: var(--space-6);
+    }
+
+    .detail-objectives h3 {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      color: var(--text-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .objective-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-bottom: var(--border-1) solid var(--border-default);
+      font-size: var(--text-body-sm);
+    }
+
+    .objective-check {
+      width: 20px;
+      height: 20px;
+      border: var(--border-2) solid var(--border-default);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .objective-check--done {
+      background: var(--color-success);
+      border-color: var(--color-success);
+      color: var(--color-black);
+    }
+  </style>
+</head>
+<body>
+  <div class="quest-page">
+    <!-- Sidebar -->
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item">&#9876; 대결</a>
+      <a href="#" class="nav-item nav-item--active">&#127919; 퀘스트</a>
+      <a href="#" class="nav-item">&#128200; 대시보드</a>
+      <a href="#" class="nav-item">&#127942; 랭킹</a>
+      <div class="nav-section">내 정보</div>
+      <a href="#" class="nav-item">&#128100; 프로필</a>
+      <a href="#" class="nav-item">&#127941; 배지</a>
+      <a href="#" class="nav-item">&#9881; 설정</a>
+    </nav>
+
+    <!-- Main -->
+    <main class="quest-main">
+      <!-- Month Navigation -->
+      <div class="quest-header">
+        <div class="quest-month-nav">
+          <button class="btn btn-ghost btn-sm">&larr;</button>
+          <span class="month-label">MONTH 03 / 12</span>
+          <button class="btn btn-ghost btn-sm">&rarr;</button>
+          <div class="month-progress">
+            <div class="month-progress-bar">
+              <div class="month-progress-fill"></div>
+            </div>
+            <div class="month-stats">
+              <span>3/5 퀘스트 완료</span>
+              <span>|</span>
+              <span>450/750 포인트 획득</span>
+            </div>
+          </div>
+        </div>
+        <h1 class="text-h1">3월 퀘스트: 마케팅 & 브랜딩</h1>
+      </div>
+
+      <div class="quest-grid">
+        <!-- Quest List -->
+        <div class="quest-list">
+          <div class="quest-item quest-item--completed">
+            <div class="quest-num">01</div>
+            <div class="quest-item-info">
+              <div class="quest-item-title">브랜드 포지셔닝 분석</div>
+              <div class="quest-item-desc">경쟁사 대비 자사 브랜드의 강점과 차별화 포인트를 분석</div>
+              <div class="quest-item-meta">
+                <span class="badge badge-success">완료</span>
+                <span class="badge badge-default">승리 +50</span>
+              </div>
+            </div>
+            <div class="quest-reward">
+              <div class="quest-reward-pts">150</div>
+              <div class="quest-reward-label">points</div>
+            </div>
+          </div>
+
+          <div class="quest-item quest-item--completed">
+            <div class="quest-num">02</div>
+            <div class="quest-item-info">
+              <div class="quest-item-title">고객 페르소나 작성</div>
+              <div class="quest-item-desc">3개의 타겟 고객 페르소나를 상세히 작성</div>
+              <div class="quest-item-meta">
+                <span class="badge badge-success">완료</span>
+                <span class="badge badge-ai">패배</span>
+              </div>
+            </div>
+            <div class="quest-reward">
+              <div class="quest-reward-pts">100</div>
+              <div class="quest-reward-label">points</div>
+            </div>
+          </div>
+
+          <div class="quest-item quest-item--completed">
+            <div class="quest-num">03</div>
+            <div class="quest-item-info">
+              <div class="quest-item-title">마케팅 전략 수립</div>
+              <div class="quest-item-desc">3개월 마케팅 전략과 실행 계획 수립</div>
+              <div class="quest-item-meta">
+                <span class="badge badge-success">완료</span>
+                <span class="badge badge-default">무승부</span>
+              </div>
+            </div>
+            <div class="quest-reward">
+              <div class="quest-reward-pts">200</div>
+              <div class="quest-reward-label">points</div>
+            </div>
+          </div>
+
+          <div class="quest-item quest-item--active">
+            <div class="quest-num">04</div>
+            <div class="quest-item-info">
+              <div class="quest-item-title">SNS 콘텐츠 기획</div>
+              <div class="quest-item-desc">1주일치 SNS 콘텐츠 캘린더와 핵심 메시지 기획</div>
+              <div class="quest-item-meta">
+                <span class="badge badge-accent">진행 중</span>
+                <span class="badge badge-default">D-3</span>
+              </div>
+            </div>
+            <div class="quest-reward">
+              <div class="quest-reward-pts">200</div>
+              <div class="quest-reward-label">points</div>
+            </div>
+          </div>
+
+          <div class="quest-item quest-item--locked">
+            <div class="quest-num">05</div>
+            <div class="quest-item-info">
+              <div class="quest-item-title">캠페인 성과 분석</div>
+              <div class="quest-item-desc">가상 캠페인 데이터를 분석하고 개선안 제시</div>
+              <div class="quest-item-meta">
+                <span class="badge badge-default">잠김</span>
+              </div>
+            </div>
+            <div class="quest-reward">
+              <div class="quest-reward-pts">200</div>
+              <div class="quest-reward-label">points</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quest Detail Panel -->
+        <div class="quest-detail">
+          <div class="detail-header">
+            <div class="detail-overline">Quest #04 / Active</div>
+            <div class="detail-title">SNS 콘텐츠 기획</div>
+            <div class="detail-desc">
+              1주일치 Instagram, LinkedIn 콘텐츠 캘린더를 작성하고,
+              각 포스트의 핵심 메시지와 비주얼 콘셉트를 기획하세요.
+              AI와 동일한 브리프로 경쟁합니다.
+            </div>
+          </div>
+
+          <div class="detail-stats">
+            <div class="detail-stat">
+              <div class="detail-stat-value" style="color: var(--color-accent);">200</div>
+              <div class="detail-stat-label">보상 포인트</div>
+            </div>
+            <div class="detail-stat">
+              <div class="detail-stat-value" style="color: var(--color-warning);">3일</div>
+              <div class="detail-stat-label">남은 시간</div>
+            </div>
+            <div class="detail-stat">
+              <div class="detail-stat-value">중급</div>
+              <div class="detail-stat-label">난이도</div>
+            </div>
+            <div class="detail-stat">
+              <div class="detail-stat-value">45분</div>
+              <div class="detail-stat-label">예상 소요</div>
+            </div>
+          </div>
+
+          <div class="detail-objectives">
+            <h3>목표 체크리스트</h3>
+            <div class="objective-item">
+              <div class="objective-check objective-check--done">&#10003;</div>
+              <span>타겟 채널 선정 (Instagram, LinkedIn)</span>
+            </div>
+            <div class="objective-item">
+              <div class="objective-check objective-check--done">&#10003;</div>
+              <span>1주일 콘텐츠 캘린더 작성</span>
+            </div>
+            <div class="objective-item">
+              <div class="objective-check"></div>
+              <span>각 포스트 핵심 메시지 정의</span>
+            </div>
+            <div class="objective-item">
+              <div class="objective-check"></div>
+              <span>비주얼 콘셉트 설명</span>
+            </div>
+            <div class="objective-item">
+              <div class="objective-check"></div>
+              <span>최종 제출</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width: 100%;">
+            &#9876; 대결 시작
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

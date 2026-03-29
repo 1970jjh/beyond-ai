@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 돌발 이벤트 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .page { display: flex; min-height: 100vh; }
+    .main { margin-left: 280px; flex: 1; padding: var(--space-8); }
+    .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-bottom: var(--space-8); }
+    .event-card { border: var(--border-4) solid; padding: var(--space-6); cursor: pointer; transition: all 100ms; }
+    .event-card:hover { box-shadow: var(--shadow-lg); }
+    .event-bonus { border-color: var(--color-success); background: rgba(0,204,102,0.05); }
+    .event-multiplier { border-color: var(--color-accent); background: rgba(230,255,0,0.05); }
+    .event-swap { border-color: #8B5CF6; background: rgba(139,92,246,0.05); }
+    .event-mystery { border-color: var(--color-warning); background: rgba(255,153,0,0.05); }
+    .event-speed { border-color: var(--color-ai); background: rgba(255,51,51,0.05); }
+    .event-icon { font-size: 48px; margin-bottom: var(--space-3); }
+    .event-type { font-family: var(--font-mono); font-size: var(--text-overline); text-transform: uppercase; letter-spacing: var(--tracking-wider); color: var(--text-muted); margin-bottom: var(--space-2); }
+    .event-title { font-family: var(--font-display); font-size: var(--text-h3); font-weight: var(--weight-bold); text-transform: uppercase; margin-bottom: var(--space-3); }
+    .event-desc { font-size: var(--text-body-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+    .event-footer { margin-top: var(--space-4); padding-top: var(--space-4); border-top: var(--border-2) solid rgba(255,255,255,0.1); font-family: var(--font-mono); font-size: var(--text-caption); color: var(--text-muted); }
+    .info-box { border: var(--border-3) solid var(--border-default); padding: var(--space-6); }
+    .info-title { font-family: var(--font-display); font-size: var(--text-h4); font-weight: var(--weight-bold); text-transform: uppercase; margin-bottom: var(--space-4); }
+    .info-list { list-style: none; }
+    .info-list li { padding: var(--space-2) 0; font-size: var(--text-body-sm); color: var(--text-secondary); }
+    .info-list li::before { content: '▸'; color: var(--color-accent); margin-right: var(--space-2); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item">&#9876; 대결</a>
+      <a href="#" class="nav-item">&#127919; 퀘스트</a>
+      <a href="#" class="nav-item">&#128200; 대시보드</a>
+      <a href="#" class="nav-item nav-item--active">&#9889; 이벤트</a>
+    </nav>
+    <main class="main">
+      <h1 class="text-h1" style="margin-bottom: var(--space-2);">돌발 이벤트</h1>
+      <p style="color: var(--text-secondary); margin-bottom: var(--space-8);">대결 중 발생하는 특별 이벤트</p>
+
+      <div class="event-grid">
+        <div class="event-card event-bonus">
+          <div class="event-icon">&#9200;</div>
+          <div class="event-type">bonus time</div>
+          <div class="event-title">보너스 타임</div>
+          <div class="event-desc">추가 5분이 주어집니다! 마지막 기회를 잡으세요.</div>
+          <div class="event-footer">클릭하여 미리보기</div>
+        </div>
+        <div class="event-card event-multiplier">
+          <div class="event-icon">&#11088;</div>
+          <div class="event-type">score multiplier</div>
+          <div class="event-title">점수 2배</div>
+          <div class="event-desc">다음 30초간 획득하는 점수가 2배로 적용됩니다!</div>
+          <div class="event-footer">클릭하여 미리보기</div>
+        </div>
+        <div class="event-card event-swap">
+          <div class="event-icon">&#128260;</div>
+          <div class="event-type">swap roles</div>
+          <div class="event-title">역할 교체</div>
+          <div class="event-desc">팀원들의 역할이 랜덤으로 교체됩니다!</div>
+          <div class="event-footer">클릭하여 미리보기</div>
+        </div>
+        <div class="event-card event-mystery">
+          <div class="event-icon">&#10067;</div>
+          <div class="event-type">mystery challenge</div>
+          <div class="event-title">미스터리 챌린지</div>
+          <div class="event-desc">숨겨진 보너스 과제가 나타났습니다!</div>
+          <div class="event-footer">클릭하여 미리보기</div>
+        </div>
+        <div class="event-card event-speed">
+          <div class="event-icon">&#9889;</div>
+          <div class="event-type">speed round</div>
+          <div class="event-title">스피드 라운드</div>
+          <div class="event-desc">60초 안에 미니 퀴즈 5개를 풀어야 합니다!</div>
+          <div class="event-footer">클릭하여 미리보기</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">&#9889; 이벤트 시스템 안내</div>
+        <ul class="info-list">
+          <li>돌발 이벤트는 대결 중 랜덤으로 발생합니다</li>
+          <li>이벤트 발생 시 모든 참가자에게 동시에 알림됩니다</li>
+          <li>이벤트 효과는 사람 팀과 AI 모두에게 동일하게 적용됩니다</li>
+          <li>관리자가 수동으로 이벤트를 발동할 수도 있습니다</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

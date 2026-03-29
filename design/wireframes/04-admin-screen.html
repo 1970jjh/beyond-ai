@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 관리자 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .admin-page {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Admin sidebar has different nav */
+    .admin-sidebar {
+      width: 280px;
+      height: 100vh;
+      background: var(--bg-secondary);
+      border-right: var(--border-3) solid var(--color-accent);
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-6) 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+
+    .admin-badge {
+      display: inline-block;
+      padding: var(--space-1) var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      background: var(--color-accent);
+      color: var(--color-black);
+      margin-left: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+
+    .admin-main {
+      margin-left: 280px;
+      flex: 1;
+      padding: var(--space-8);
+    }
+
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-8);
+    }
+
+    /* Overview Cards */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+
+    .overview-card {
+      padding: var(--space-4);
+      border: var(--border-3) solid var(--border-default);
+    }
+
+    .overview-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      color: var(--text-muted);
+      margin-bottom: var(--space-1);
+    }
+
+    .overview-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .overview-sub {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* Tabs */
+    .admin-tabs {
+      display: flex;
+      border-bottom: var(--border-3) solid var(--border-default);
+      margin-bottom: var(--space-6);
+    }
+
+    .admin-tab {
+      padding: var(--space-3) var(--space-6);
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: var(--border-3) solid transparent;
+      margin-bottom: -3px;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+
+    .admin-tab--active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+
+    .admin-tab:hover {
+      color: var(--text-primary);
+    }
+
+    /* Data Table */
+    .data-table-container {
+      border: var(--border-3) solid var(--border-default);
+      margin-bottom: var(--space-8);
+    }
+
+    .data-table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-6);
+      border-bottom: var(--border-2) solid var(--border-default);
+    }
+
+    .data-table-search {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .search-input {
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+      color: var(--text-primary);
+      background: var(--bg-card);
+      border: var(--border-2) solid var(--border-default);
+      width: 300px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--color-accent);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      text-align: left;
+      color: var(--text-muted);
+      border-bottom: var(--border-2) solid var(--border-default);
+      background: var(--bg-secondary);
+    }
+
+    .data-table td {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-body-sm);
+      border-bottom: var(--border-1) solid var(--border-default);
+    }
+
+    .data-table tr:hover td {
+      background: var(--bg-card);
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .user-mini-avatar {
+      width: 28px;
+      height: 28px;
+      background: var(--color-gray-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-caption);
+      font-weight: var(--weight-bold);
+      flex-shrink: 0;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: var(--space-2);
+    }
+
+    .status-active { background: var(--color-success); }
+    .status-inactive { background: var(--color-gray-500); }
+
+    .win-loss {
+      font-family: var(--font-mono);
+      font-weight: var(--weight-bold);
+    }
+
+    .win-count { color: var(--color-human); }
+    .loss-count { color: var(--color-ai); }
+
+    .table-points {
+      font-family: var(--font-mono);
+      font-weight: var(--weight-bold);
+      color: var(--color-accent);
+    }
+
+    .role-badge {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      padding: var(--space-1) var(--space-2);
+      border: var(--border-2) solid;
+      text-transform: uppercase;
+    }
+
+    .role-admin { border-color: var(--color-accent); color: var(--color-accent); }
+    .role-learner { border-color: var(--color-gray-500); color: var(--text-secondary); }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-6);
+      border-top: var(--border-2) solid var(--border-default);
+    }
+
+    .pagination-info {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+
+    .pagination-buttons {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .page-btn {
+      padding: var(--space-1) var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-body-sm);
+      font-weight: var(--weight-bold);
+      background: none;
+      border: var(--border-2) solid var(--border-default);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .page-btn--active {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    /* Quick Actions */
+    .admin-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .action-card {
+      padding: var(--space-6);
+      border: var(--border-3) solid var(--border-default);
+      cursor: pointer;
+      transition: border-color var(--duration-micro) var(--ease-sharp);
+    }
+
+    .action-card:hover {
+      border-color: var(--color-accent);
+    }
+
+    .action-icon {
+      font-size: var(--text-h2);
+      margin-bottom: var(--space-3);
+    }
+
+    .action-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: var(--weight-bold);
+      margin-bottom: var(--space-2);
+    }
+
+    .action-desc {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-page">
+    <!-- Admin Sidebar -->
+    <nav class="admin-sidebar">
+      <div class="nav-logo" style="padding: 0 var(--space-6); margin-bottom: var(--space-2);">[B] BEYOND AI</div>
+      <div class="admin-badge">ADMIN</div>
+      <a href="#" class="nav-item nav-item--active">&#128202; 대시보드</a>
+      <a href="#" class="nav-item">&#128101; 사용자 관리</a>
+      <a href="#" class="nav-item">&#128218; 퀘스트 관리</a>
+      <a href="#" class="nav-item">&#127942; 배지 관리</a>
+      <a href="#" class="nav-item">&#128200; 분석 리포트</a>
+      <div class="nav-section">시스템</div>
+      <a href="#" class="nav-item">&#127970; 테넌트 설정</a>
+      <a href="#" class="nav-item">&#128272; 권한 관리</a>
+      <a href="#" class="nav-item">&#128230; 데이터 내보내기</a>
+      <a href="#" class="nav-item">&#9881; 설정</a>
+    </nav>
+
+    <!-- Main -->
+    <main class="admin-main">
+      <!-- Header -->
+      <header class="admin-header">
+        <div>
+          <h1 class="text-h1">관리자 대시보드</h1>
+          <p class="text-body-sm" style="color: var(--text-secondary); margin-top: var(--space-1);">
+            Acme Corp &middot; Month 3 / 12
+          </p>
+        </div>
+        <div style="display: flex; gap: var(--space-3);">
+          <button class="btn btn-secondary btn-sm">&#128230; 리포트</button>
+          <button class="btn btn-primary btn-sm">+ 퀘스트 추가</button>
+        </div>
+      </header>
+
+      <!-- Overview Stats -->
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="overview-label">총 사용자</div>
+          <div class="overview-value">248</div>
+          <div class="overview-sub">활성 230 / 비활성 18</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">평균 참여율</div>
+          <div class="overview-value" style="color: var(--color-success);">78%</div>
+          <div class="overview-sub">+5% 지난달 대비</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">완료 퀘스트</div>
+          <div class="overview-value">1,842</div>
+          <div class="overview-sub">이번 달 412</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">사람 승률</div>
+          <div class="overview-value" style="color: var(--color-human);">43%</div>
+          <div class="overview-sub">AI 승 52% / 무승부 5%</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">총 배지 발급</div>
+          <div class="overview-value" style="color: var(--color-accent);">567</div>
+          <div class="overview-sub">이번 달 89</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab admin-tab--active">사용자</button>
+        <button class="admin-tab">퀘스트</button>
+        <button class="admin-tab">대결 기록</button>
+        <button class="admin-tab">배지</button>
+      </div>
+
+      <!-- User Management Table -->
+      <div class="data-table-container">
+        <div class="data-table-header">
+          <div class="text-h4" style="font-family: var(--font-display);">사용자 목록</div>
+          <div class="data-table-search">
+            <input type="text" class="search-input" placeholder="이름 또는 이메일 검색...">
+            <button class="btn btn-secondary btn-sm">필터</button>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>사용자</th>
+              <th>역할</th>
+              <th>상태</th>
+              <th>대결 전적</th>
+              <th>포인트</th>
+              <th>퀘스트</th>
+              <th>배지</th>
+              <th>마지막 활동</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-mini-avatar">P</div>
+                  <div>
+                    <div style="font-weight: var(--weight-semibold);">박지영</div>
+                    <div class="text-caption" style="color: var(--text-muted);">jiyoung@acme.co</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-badge role-learner">Learner</span></td>
+              <td><span class="status-dot status-active"></span>활성</td>
+              <td class="win-loss"><span class="win-count">12</span>W <span class="loss-count">3</span>L</td>
+              <td class="table-points">3,200</td>
+              <td>15/36</td>
+              <td>7</td>
+              <td class="text-caption" style="color: var(--text-muted);">10분 전</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-mini-avatar">L</div>
+                  <div>
+                    <div style="font-weight: var(--weight-semibold);">이준호</div>
+                    <div class="text-caption" style="color: var(--text-muted);">junho@acme.co</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-badge role-learner">Learner</span></td>
+              <td><span class="status-dot status-active"></span>활성</td>
+              <td class="win-loss"><span class="win-count">10</span>W <span class="loss-count">5</span>L</td>
+              <td class="table-points">2,890</td>
+              <td>14/36</td>
+              <td>6</td>
+              <td class="text-caption" style="color: var(--text-muted);">1시간 전</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-mini-avatar" style="background: var(--color-accent); color: var(--color-black);">K</div>
+                  <div>
+                    <div style="font-weight: var(--weight-semibold);">김민수</div>
+                    <div class="text-caption" style="color: var(--text-muted);">minsoo@acme.co</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-badge role-learner">Learner</span></td>
+              <td><span class="status-dot status-active"></span>활성</td>
+              <td class="win-loss"><span class="win-count">8</span>W <span class="loss-count">4</span>L</td>
+              <td class="table-points">2,450</td>
+              <td>13/36</td>
+              <td>5</td>
+              <td class="text-caption" style="color: var(--text-muted);">2시간 전</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-mini-avatar">H</div>
+                  <div>
+                    <div style="font-weight: var(--weight-semibold);">한소율</div>
+                    <div class="text-caption" style="color: var(--text-muted);">soyul@acme.co</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-badge role-admin">Admin</span></td>
+              <td><span class="status-dot status-active"></span>활성</td>
+              <td class="win-loss"><span class="win-count">6</span>W <span class="loss-count">2</span>L</td>
+              <td class="table-points">1,800</td>
+              <td>10/36</td>
+              <td>4</td>
+              <td class="text-caption" style="color: var(--text-muted);">30분 전</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-mini-avatar">W</div>
+                  <div>
+                    <div style="font-weight: var(--weight-semibold);">원재혁</div>
+                    <div class="text-caption" style="color: var(--text-muted);">jaehyuk@acme.co</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-badge role-learner">Learner</span></td>
+              <td><span class="status-dot status-inactive"></span>비활성</td>
+              <td class="win-loss"><span class="win-count">2</span>W <span class="loss-count">6</span>L</td>
+              <td class="table-points">620</td>
+              <td>5/36</td>
+              <td>1</td>
+              <td class="text-caption" style="color: var(--text-muted);">3일 전</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <div class="pagination-info">1-5 of 248 사용자</div>
+          <div class="pagination-buttons">
+            <button class="page-btn page-btn--active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">&hellip;</button>
+            <button class="page-btn">50</button>
+            <button class="page-btn">&rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section-header">
+        <div class="text-h3" style="font-family: var(--font-display);">빠른 작업</div>
+      </div>
+      <div class="admin-actions">
+        <div class="action-card">
+          <div class="action-icon">&#128218;</div>
+          <div class="action-title">새 퀘스트 생성</div>
+          <div class="action-desc">새로운 월별 퀘스트를 생성하고 학습자에게 배포합니다.</div>
+        </div>
+        <div class="action-card">
+          <div class="action-icon">&#127941;</div>
+          <div class="action-title">배지 관리</div>
+          <div class="action-desc">새 배지를 추가하거나 획득 조건을 수정합니다.</div>
+        </div>
+        <div class="action-card">
+          <div class="action-icon">&#128200;</div>
+          <div class="action-title">분석 리포트</div>
+          <div class="action-desc">월별/분기별 학습 성과 리포트를 생성합니다.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

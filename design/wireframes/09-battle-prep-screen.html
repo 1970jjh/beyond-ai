@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 대결 준비 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .prep-page { min-height: 100vh; background: var(--bg-primary); color: var(--text-primary); padding: var(--space-12) var(--space-8); position: relative; overflow: hidden; }
+    .prep-page::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px); pointer-events: none; }
+    .prep-content { max-width: 1024px; margin: 0 auto; position: relative; z-index: 1; }
+    .quest-badge { display: inline-block; background: var(--color-accent); color: var(--color-black); font-family: var(--font-mono); font-size: var(--text-caption); font-weight: var(--weight-bold); text-transform: uppercase; padding: var(--space-1) var(--space-3); border: var(--border-2) solid var(--color-black); margin-bottom: var(--space-4); }
+    .quest-title { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--weight-bold); text-transform: uppercase; text-align: center; margin-bottom: var(--space-4); }
+    .criteria-row { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-12); }
+    .criteria-tag { border: var(--border-2) solid var(--color-gray-700); padding: var(--space-1) var(--space-3); font-family: var(--font-mono); font-size: var(--text-caption); text-transform: uppercase; color: var(--text-muted); }
+    .matchup { display: grid; grid-template-columns: 1fr 100px 1fr; gap: var(--space-8); align-items: center; margin-bottom: var(--space-12); }
+    .panel { border: var(--border-4) solid; padding: var(--space-8); text-align: center; }
+    .panel-human { border-color: var(--color-human); background: linear-gradient(180deg, rgba(0,102,255,0.08) 0%, transparent 100%); }
+    .panel-ai { border-color: var(--color-ai); background: linear-gradient(180deg, rgba(255,51,51,0.08) 0%, transparent 100%); }
+    .panel-icon { width: 64px; height: 64px; border: var(--border-3) solid; display: flex; align-items: center; justify-content: center; font-size: var(--text-h2); margin: 0 auto var(--space-4); }
+    .panel-icon-human { border-color: var(--color-human); color: var(--color-human); }
+    .panel-icon-ai { border-color: var(--color-ai); color: var(--color-ai); }
+    .panel-label { font-family: var(--font-mono); font-size: var(--text-overline); text-transform: uppercase; letter-spacing: var(--tracking-wider); margin-bottom: var(--space-2); }
+    .panel-name { font-family: var(--font-display); font-size: var(--text-h2); font-weight: var(--weight-bold); text-transform: uppercase; margin-bottom: var(--space-4); }
+    .panel-members { font-size: var(--text-body-sm); color: var(--text-secondary); line-height: 1.8; }
+    .vs-center { display: flex; align-items: center; justify-content: center; }
+    .vs-badge { width: 100px; height: 100px; background: var(--color-accent); color: var(--color-black); font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--weight-bold); display: flex; align-items: center; justify-content: center; border: var(--border-4) solid var(--color-black); transform: rotate(-12deg); }
+    .timer-section { text-align: center; margin-bottom: var(--space-10); }
+    .timer-label { font-family: var(--font-mono); font-size: var(--text-overline); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-2); }
+    .timer-value { font-family: var(--font-mono); font-size: var(--text-display); font-weight: var(--weight-bold); color: var(--color-accent); text-shadow: 0 0 20px rgba(230,255,0,0.3); }
+    .countdown { text-align: center; font-family: var(--font-display); font-size: 128px; font-weight: var(--weight-bold); color: var(--color-accent); text-shadow: 0 0 40px rgba(230,255,0,0.4); }
+  </style>
+</head>
+<body>
+  <div class="prep-page">
+    <div class="prep-content">
+      <div style="text-align: center;">
+        <span class="quest-badge">QUEST #03</span>
+        <h1 class="quest-title">사업 제안서 작성</h1>
+        <div class="criteria-row">
+          <span class="criteria-tag">품질</span>
+          <span class="criteria-tag">창의성</span>
+          <span class="criteria-tag">실행력</span>
+          <span class="criteria-tag">시간 효율</span>
+        </div>
+      </div>
+
+      <div class="matchup">
+        <div class="panel panel-human">
+          <div class="panel-icon panel-icon-human">&#128100;</div>
+          <div class="panel-label" style="color: var(--color-human);">HUMAN TEAM</div>
+          <div class="panel-name">사람 팀</div>
+          <div class="panel-members">김민수<br>이지은<br>박준호<br>최서연</div>
+        </div>
+        <div class="vs-center"><div class="vs-badge">VS</div></div>
+        <div class="panel panel-ai">
+          <div class="panel-icon panel-icon-ai">&#129302;</div>
+          <div class="panel-label" style="color: var(--color-ai);">AI</div>
+          <div class="panel-name">GPT-4o</div>
+          <div class="panel-members">&#9889; 고급 추론<br>&#127919; 데이터 분석<br>&#9876; 전략 수립</div>
+        </div>
+      </div>
+
+      <div class="timer-section">
+        <div class="timer-label">&#9201; 제한 시간</div>
+        <div class="timer-value">30:00</div>
+      </div>
+
+      <div class="countdown">3</div>
+    </div>
+  </div>
+</body>
+</html>

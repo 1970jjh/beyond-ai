@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 팀 편성 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .page { display: flex; min-height: 100vh; }
+    .main { margin-left: 280px; flex: 1; padding: var(--space-8); }
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-8); }
+    .team-card { border: var(--border-4) solid; padding: var(--space-6); }
+    .team-alpha { border-color: var(--color-human); background: linear-gradient(180deg, rgba(0,102,255,0.05) 0%, transparent 100%); }
+    .team-beta { border-color: #8B5CF6; background: linear-gradient(180deg, rgba(139,92,246,0.05) 0%, transparent 100%); }
+    .team-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6); padding-bottom: var(--space-4); border-bottom: var(--border-2) solid var(--border-default); }
+    .team-name { font-family: var(--font-display); font-size: var(--text-h3); font-weight: var(--weight-bold); text-transform: uppercase; }
+    .ready-badge { background: var(--color-success); color: var(--color-white); padding: var(--space-1) var(--space-3); font-family: var(--font-mono); font-size: var(--text-caption); font-weight: var(--weight-bold); text-transform: uppercase; }
+    .member-row { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); border: var(--border-2) solid var(--border-default); margin-bottom: var(--space-2); }
+    .member-avatar { width: 40px; height: 40px; border: var(--border-2) solid var(--border-default); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: var(--weight-bold); }
+    .member-info { flex: 1; }
+    .member-name { font-weight: var(--weight-bold); }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: var(--space-1); }
+    .status-joined { background: var(--color-success); }
+    .status-waiting { background: var(--color-accent); animation: pulse-glow 2s infinite; }
+    .role-select { border: var(--border-2) solid var(--border-default); padding: var(--space-2) var(--space-3); font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-body-sm); text-transform: uppercase; background: var(--bg-primary); color: var(--text-primary); }
+    .role-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: var(--space-8); }
+    .role-item { border: var(--border-2) solid var(--border-default); padding: var(--space-3); }
+    .role-name { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-body-sm); text-transform: uppercase; margin-bottom: var(--space-1); }
+    .role-desc { font-size: var(--text-caption); color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item nav-item--active">&#128101; 팀 편성</a>
+      <a href="#" class="nav-item">&#9876; 대결</a>
+      <a href="#" class="nav-item">&#127919; 퀘스트</a>
+    </nav>
+    <main class="main">
+      <h1 class="text-h1" style="margin-bottom: var(--space-2);">팀 편성</h1>
+      <p style="color: var(--text-secondary); margin-bottom: var(--space-8);">역할을 선택하고 팀을 완성하세요</p>
+
+      <div class="team-grid">
+        <div class="team-card team-alpha">
+          <div class="team-header">
+            <div class="team-name">&#128101; 팀 Alpha</div>
+            <span class="ready-badge">&#10003; 준비 완료</span>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">김</div>
+            <div class="member-info"><span class="member-name">김민수</span> <span class="status-dot status-joined"></span><small style="color: var(--text-muted);">참여 중</small></div>
+            <select class="role-select"><option>리더</option></select>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">이</div>
+            <div class="member-info"><span class="member-name">이지은</span> <span class="status-dot status-waiting"></span><small style="color: var(--text-muted);">대기 중</small></div>
+            <select class="role-select"><option>역할 선택</option></select>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">박</div>
+            <div class="member-info"><span class="member-name">박준호</span> <span class="status-dot status-joined"></span><small style="color: var(--text-muted);">참여 중</small></div>
+            <select class="role-select"><option>연구원</option></select>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">최</div>
+            <div class="member-info"><span class="member-name">최서연</span> <span class="status-dot status-waiting"></span><small style="color: var(--text-muted);">대기 중</small></div>
+            <select class="role-select"><option>역할 선택</option></select>
+          </div>
+        </div>
+
+        <div class="team-card team-beta">
+          <div class="team-header">
+            <div class="team-name">&#128101; 팀 Beta</div>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">정</div>
+            <div class="member-info"><span class="member-name">정우진</span> <span class="status-dot status-joined"></span><small style="color: var(--text-muted);">참여 중</small></div>
+            <select class="role-select"><option>리더</option></select>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">한</div>
+            <div class="member-info"><span class="member-name">한소희</span> <span class="status-dot status-waiting"></span><small style="color: var(--text-muted);">대기 중</small></div>
+            <select class="role-select"><option>역할 선택</option></select>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">오</div>
+            <div class="member-info"><span class="member-name">오민지</span> <span class="status-dot status-joined"></span><small style="color: var(--text-muted);">참여 중</small></div>
+            <select class="role-select"><option>분석가</option></select>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">장</div>
+            <div class="member-info"><span class="member-name">장현우</span> <span class="status-dot status-waiting"></span><small style="color: var(--text-muted);">대기 중</small></div>
+            <select class="role-select"><option>역할 선택</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-legend">
+        <div class="role-item"><div class="role-name">&#128737; 리더</div><div class="role-desc">팀을 이끌고 최종 결정</div></div>
+        <div class="role-item"><div class="role-name">&#128269; 연구원</div><div class="role-desc">자료 조사와 분석 담당</div></div>
+        <div class="role-item"><div class="role-name">&#127908; 발표자</div><div class="role-desc">결과물 발표와 전달</div></div>
+        <div class="role-item"><div class="role-name">&#128200; 분석가</div><div class="role-desc">데이터 해석과 인사이트</div></div>
+      </div>
+
+      <button class="btn btn-primary btn-lg" style="width: 100%;">대결 시작</button>
+    </main>
+  </div>
+</body>
+</html>

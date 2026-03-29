@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 최종 리포트 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .page { display: flex; min-height: 100vh; }
+    .main { margin-left: 280px; flex: 1; padding: var(--space-8); }
+    .hero-banner { background: var(--color-accent); color: var(--color-black); border: var(--border-4) solid var(--color-black); padding: var(--space-8); text-align: center; box-shadow: var(--shadow-lg); margin-bottom: var(--space-8); }
+    .hero-icon { font-size: 48px; margin-bottom: var(--space-4); }
+    .hero-title { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--weight-bold); margin-bottom: var(--space-2); }
+    .hero-subtitle { font-family: var(--font-display); font-size: var(--text-h3); font-weight: var(--weight-bold); }
+    .hero-date { font-family: var(--font-mono); font-size: var(--text-body-sm); margin-top: var(--space-3); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: var(--space-8); }
+    .timeline { margin-bottom: var(--space-8); }
+    .timeline-item { display: grid; grid-template-columns: 60px 1fr auto; gap: var(--space-4); align-items: center; padding: var(--space-4); border: var(--border-2) solid var(--border-default); margin-bottom: var(--space-2); }
+    .timeline-month { font-family: var(--font-mono); font-size: var(--text-h3); font-weight: var(--weight-bold); text-align: center; }
+    .timeline-title { font-family: var(--font-display); font-weight: var(--weight-bold); }
+    .timeline-scores { display: flex; gap: var(--space-3); align-items: center; }
+    .win-badge { padding: var(--space-1) var(--space-2); font-family: var(--font-mono); font-size: var(--text-caption); font-weight: var(--weight-bold); text-transform: uppercase; border: var(--border-2) solid; }
+    .win-human { background: var(--color-human); color: var(--color-white); border-color: var(--color-human); }
+    .win-ai { background: var(--color-ai); color: var(--color-white); border-color: var(--color-ai); }
+    .badges-section { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+    .badge-card { border: var(--border-2) solid; padding: var(--space-4); text-align: center; min-width: 100px; }
+    .badge-platinum { border-color: #8B5CF6; background: rgba(139,92,246,0.1); }
+    .badge-gold { border-color: var(--color-accent); background: rgba(230,255,0,0.1); }
+    .badge-silver { border-color: var(--color-gray-300); }
+    .badge-bronze { border-color: #CD7F32; background: rgba(205,127,50,0.1); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item">&#128200; 대시보드</a>
+      <a href="#" class="nav-item">&#127919; 퀘스트</a>
+      <a href="#" class="nav-item">&#128200; 분석</a>
+      <a href="#" class="nav-item nav-item--active">&#128203; 리포트</a>
+    </nav>
+    <main class="main">
+      <div class="hero-banner">
+        <div class="hero-icon">&#127942;</div>
+        <div class="hero-title">최종 리포트</div>
+        <div class="hero-subtitle">김민수님의 12개월 여정</div>
+        <div class="hero-date">&#128197; 2026.01 &mdash; 2026.12</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-value">987</div><div class="stat-label">총 점수</div></div>
+        <div class="stat"><div class="stat-value">#3</div><div class="stat-label">최종 순위</div></div>
+        <div class="stat"><div class="stat-value">+34%</div><div class="stat-label">성장률</div></div>
+        <div class="stat"><div class="stat-value">8승</div><div class="stat-label">AI 전승</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom: var(--space-8);">
+        <div class="card-header"><div class="card-title">&#128197; 12개월 퀘스트 기록</div></div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-month">01</div><div><div class="timeline-title">시장 분석 리포트</div></div><div class="timeline-scores"><span class="text-score" style="color:var(--color-human);font-size:14px;">82</span><span style="color:var(--text-muted);font-size:12px;">vs</span><span class="text-score" style="color:var(--color-ai);font-size:14px;">78</span><span class="win-badge win-human">WIN</span></div></div>
+          <div class="timeline-item"><div class="timeline-month">02</div><div><div class="timeline-title">고객 페르소나 설계</div></div><div class="timeline-scores"><span class="text-score" style="color:var(--color-human);font-size:14px;">75</span><span style="color:var(--text-muted);font-size:12px;">vs</span><span class="text-score" style="color:var(--color-ai);font-size:14px;">80</span><span class="win-badge win-ai">LOSE</span></div></div>
+          <div class="timeline-item"><div class="timeline-month">03</div><div><div class="timeline-title">사업 제안서 작성</div></div><div class="timeline-scores"><span class="text-score" style="color:var(--color-human);font-size:14px;">87</span><span style="color:var(--text-muted);font-size:12px;">vs</span><span class="text-score" style="color:var(--color-ai);font-size:14px;">82</span><span class="win-badge win-human">WIN</span></div></div>
+          <div class="timeline-item"><div class="timeline-month">04</div><div><div class="timeline-title">위기 대응 시뮬레이션</div></div><div class="timeline-scores"><span class="text-score" style="color:var(--color-human);font-size:14px;">79</span><span style="color:var(--text-muted);font-size:12px;">vs</span><span class="text-score" style="color:var(--color-ai);font-size:14px;">85</span><span class="win-badge win-ai">LOSE</span></div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: var(--space-8);">
+        <div class="card-header"><div class="card-title">&#127941; 획득한 배지 (5개)</div></div>
+        <div class="badges-section">
+          <div class="badge-card badge-bronze"><div style="font-size:24px;margin-bottom:4px;">&#127919;</div><div style="font-family:var(--font-display);font-weight:bold;font-size:12px;">AI 헌터</div><div class="text-overline">bronze</div></div>
+          <div class="badge-card badge-silver"><div style="font-size:24px;margin-bottom:4px;">&#128202;</div><div style="font-family:var(--font-display);font-weight:bold;font-size:12px;">분석의 달인</div><div class="text-overline">silver</div></div>
+          <div class="badge-card badge-gold"><div style="font-size:24px;margin-bottom:4px;">&#128293;</div><div style="font-family:var(--font-display);font-weight:bold;font-size:12px;">연속 승리</div><div class="text-overline">gold</div></div>
+          <div class="badge-card badge-platinum"><div style="font-size:24px;margin-bottom:4px;">&#128081;</div><div style="font-family:var(--font-display);font-weight:bold;font-size:12px;">리더십 마스터</div><div class="text-overline">platinum</div></div>
+          <div class="badge-card badge-gold"><div style="font-size:24px;margin-bottom:4px;">&#127942;</div><div style="font-family:var(--font-display);font-weight:bold;font-size:12px;">퀘스트 컴플리터</div><div class="text-overline">gold</div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

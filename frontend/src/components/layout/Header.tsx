@@ -1,12 +1,15 @@
 import { Link, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
-import { Swords, Map, LayoutDashboard, Trophy, Settings } from 'lucide-react'
+import { Swords, Map, LayoutDashboard, Trophy, Settings, BarChart2, FileText, Zap } from 'lucide-react'
 
 const navItems = [
   { path: '/', label: '대시보드', icon: LayoutDashboard },
   { path: '/battle', label: '대결', icon: Swords },
   { path: '/quests', label: '퀘스트', icon: Map },
   { path: '/ranking', label: '랭킹', icon: Trophy },
+  { path: '/analysis', label: '분석', icon: BarChart2 },
+  { path: '/report', label: '리포트', icon: FileText },
+  { path: '/events', label: '이벤트', icon: Zap },
 ] as const
 
 export function Header() {

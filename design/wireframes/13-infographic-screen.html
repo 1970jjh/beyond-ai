@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 성과 인포그래픽 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    .page { display: flex; min-height: 100vh; }
+    .main { margin-left: 280px; flex: 1; padding: var(--space-8); }
+    .theme-selector { display: flex; gap: var(--space-3); margin-bottom: var(--space-8); }
+    .theme-btn { border: var(--border-3) solid var(--border-default); padding: var(--space-2) var(--space-4); font-family: var(--font-display); font-weight: var(--weight-bold); text-transform: uppercase; cursor: pointer; }
+    .theme-btn--active { background: var(--color-accent); color: var(--color-black); border-color: var(--color-black); box-shadow: var(--shadow-md); }
+    .infographic {
+      border: var(--border-4) solid var(--color-white);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      padding: var(--space-12);
+      box-shadow: var(--shadow-lg);
+      max-width: 640px;
+      margin: 0 auto var(--space-8);
+      position: relative;
+    }
+    .infographic::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+      pointer-events: none;
+    }
+    .info-header { text-align: center; margin-bottom: var(--space-10); position: relative; z-index: 1; }
+    .info-brand { font-family: var(--font-display); font-size: var(--text-body-sm); font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: var(--tracking-wider); color: var(--color-accent); margin-bottom: var(--space-2); }
+    .info-name { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--weight-bold); text-transform: uppercase; margin-bottom: var(--space-2); }
+    .info-date { font-family: var(--font-mono); font-size: var(--text-body-sm); color: var(--text-muted); }
+    .info-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-10); position: relative; z-index: 1; }
+    .info-stat { text-align: center; padding: var(--space-4); border: 2px solid rgba(255,255,255,0.2); }
+    .info-stat-value { font-family: var(--font-mono); font-size: var(--text-h2); font-weight: var(--weight-bold); color: var(--color-accent); }
+    .info-stat-label { font-family: var(--font-mono); font-size: var(--text-overline); text-transform: uppercase; letter-spacing: var(--tracking-wider); color: var(--text-muted); margin-top: var(--space-1); }
+    .info-battle { margin-bottom: var(--space-10); position: relative; z-index: 1; }
+    .info-battle-label { font-family: var(--font-display); font-size: var(--text-body-sm); font-weight: var(--weight-bold); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-4); }
+    .info-battle-bar { height: 24px; border: var(--border-2) solid var(--border-default); display: flex; overflow: hidden; }
+    .info-battle-fill-human { height: 100%; background: var(--color-human); }
+    .info-battle-fill-ai { height: 100%; background: var(--color-ai); }
+    .info-battle-legend { display: flex; justify-content: space-between; margin-top: var(--space-2); }
+    .info-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-10); position: relative; z-index: 1; }
+    .info-highlight { padding: var(--space-4); border: 2px solid rgba(255,255,255,0.2); }
+    .info-highlight-label { font-family: var(--font-mono); font-size: var(--text-overline); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-1); }
+    .info-highlight-value { font-family: var(--font-display); font-size: var(--text-h4); font-weight: var(--weight-bold); }
+    .info-footer { text-align: center; padding-top: var(--space-6); border-top: 2px solid rgba(255,255,255,0.2); position: relative; z-index: 1; }
+    .info-footer-brand { font-family: var(--font-display); font-size: var(--text-body-lg); font-weight: var(--weight-bold); color: var(--color-accent); }
+    .info-footer-tagline { font-family: var(--font-mono); font-size: var(--text-caption); color: var(--text-muted); margin-top: var(--space-1); }
+    .action-row { display: flex; gap: var(--space-4); max-width: 640px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item">&#128200; 대시보드</a>
+      <a href="#" class="nav-item">&#128203; 리포트</a>
+      <a href="#" class="nav-item nav-item--active">&#127912; 인포그래픽</a>
+    </nav>
+    <main class="main">
+      <h1 class="text-h1" style="margin-bottom: var(--space-2);">성과 인포그래픽</h1>
+      <p style="color: var(--text-secondary); margin-bottom: var(--space-8);">나만의 성장 스토리를 시각화합니다</p>
+
+      <div class="card" style="margin-bottom: var(--space-8); padding: var(--space-4);">
+        <div style="display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4);">
+          <span>&#127912;</span>
+          <span class="text-h4">테마 선택</span>
+        </div>
+        <div class="theme-selector">
+          <button class="theme-btn theme-btn--active">다크</button>
+          <button class="theme-btn">네온</button>
+          <button class="theme-btn">미니멀</button>
+        </div>
+      </div>
+
+      <div class="infographic">
+        <div class="info-header">
+          <div class="info-brand">BEYOND AI &mdash; 12개월 성장 리포트</div>
+          <div class="info-name">김민수</div>
+          <div class="info-date">2026.01 &mdash; 2026.12</div>
+        </div>
+
+        <div class="info-stats">
+          <div class="info-stat"><div class="info-stat-value">987</div><div class="info-stat-label">총 점수</div></div>
+          <div class="info-stat"><div class="info-stat-value">#3</div><div class="info-stat-label">최종 순위</div></div>
+          <div class="info-stat"><div class="info-stat-value">+34%</div><div class="info-stat-label">성장률</div></div>
+        </div>
+
+        <div class="info-battle">
+          <div class="info-battle-label">AI와의 대결 전적</div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-1);">
+            <span class="text-score" style="font-size:14px;color:var(--color-human);">사람 8승</span>
+            <span class="text-score" style="font-size:14px;color:var(--color-ai);">AI 4승</span>
+          </div>
+          <div class="info-battle-bar">
+            <div class="info-battle-fill-human" style="width: 66.7%;"></div>
+            <div class="info-battle-fill-ai" style="width: 33.3%;"></div>
+          </div>
+        </div>
+
+        <div class="info-highlights">
+          <div class="info-highlight"><div class="info-highlight-label">최고 역량</div><div class="info-highlight-value">기획력</div></div>
+          <div class="info-highlight"><div class="info-highlight-label">최고 성적</div><div class="info-highlight-value">3월 87점</div></div>
+          <div class="info-highlight"><div class="info-highlight-label">획득 배지</div><div class="info-highlight-value">5개</div></div>
+          <div class="info-highlight"><div class="info-highlight-label">승률</div><div class="info-highlight-value">67%</div></div>
+        </div>
+
+        <div class="info-footer">
+          <div class="info-footer-brand">[B] BEYOND AI</div>
+          <div class="info-footer-tagline">사람 vs AI, 12개월의 성장 대결</div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-primary" style="flex: 1;">&#128229; 이미지 다운로드</button>
+        <button class="btn btn-secondary">&#128279; 공유하기</button>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

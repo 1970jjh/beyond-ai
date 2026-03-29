@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond AI — 대결 진행 화면 Wireframe</title>
+  <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/brutalism-components.css">
+  <style>
+    /* Page-specific layout */
+    .battle-page {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .battle-main {
+      margin-left: 280px;
+      flex: 1;
+      padding: var(--space-8);
+    }
+
+    .battle-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-8);
+    }
+
+    .quest-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .timer {
+      font-family: var(--font-mono);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+      color: var(--color-accent);
+      padding: var(--space-2) var(--space-4);
+      border: var(--border-3) solid var(--color-accent);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .battle-area {
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+
+    .panel {
+      border: var(--border-4) solid;
+      padding: var(--space-8);
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-human {
+      border-color: var(--color-human);
+      background: linear-gradient(180deg, rgba(0, 102, 255, 0.08) 0%, transparent 100%);
+    }
+
+    .panel-ai {
+      border-color: var(--color-ai);
+      background: linear-gradient(180deg, rgba(255, 51, 51, 0.08) 0%, transparent 100%);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4);
+      border-bottom: var(--border-2) solid var(--border-default);
+    }
+
+    .panel-team {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .team-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-h3);
+      border: var(--border-3) solid;
+    }
+
+    .team-icon-human {
+      border-color: var(--color-human);
+      color: var(--color-human);
+    }
+
+    .team-icon-ai {
+      border-color: var(--color-ai);
+      color: var(--color-ai);
+    }
+
+    .panel-score {
+      font-family: var(--font-mono);
+      font-size: var(--text-h1);
+      font-weight: var(--weight-bold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .score-human { color: var(--color-human); }
+    .score-ai { color: var(--color-ai); }
+
+    .panel-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .answer-block {
+      padding: var(--space-4);
+      background: var(--bg-card);
+      border: var(--border-2) solid var(--border-default);
+      font-size: var(--text-body);
+      line-height: var(--leading-relaxed);
+      min-height: 200px;
+    }
+
+    .answer-block--active {
+      border-color: var(--color-accent);
+    }
+
+    .answer-typing {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-top: var(--space-2);
+    }
+
+    .vs-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vs-badge {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-accent);
+      color: var(--color-black);
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: var(--weight-bold);
+      border: var(--border-4) solid var(--color-black);
+      transform: rotate(-12deg);
+    }
+
+    .progress-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .metric-card {
+      padding: var(--space-4);
+      border: var(--border-3) solid var(--border-default);
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-overline);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .metric-bar {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      margin-top: var(--space-3);
+    }
+
+    .metric-bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-elevated);
+    }
+
+    .metric-bar-fill-human {
+      height: 100%;
+      background: var(--color-human);
+    }
+
+    .metric-bar-fill-ai {
+      height: 100%;
+      background: var(--color-ai);
+    }
+
+    .metric-percent {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      font-weight: var(--weight-bold);
+      min-width: 40px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="battle-page">
+    <!-- Sidebar Navigation -->
+    <nav class="nav-sidebar">
+      <div class="nav-logo">[B] BEYOND AI</div>
+      <a href="#" class="nav-item nav-item--active">&#9876; 대결</a>
+      <a href="#" class="nav-item">&#127919; 퀘스트</a>
+      <a href="#" class="nav-item">&#128200; 대시보드</a>
+      <a href="#" class="nav-item">&#127942; 랭킹</a>
+      <div class="nav-section">내 정보</div>
+      <a href="#" class="nav-item">&#128100; 프로필</a>
+      <a href="#" class="nav-item">&#127941; 배지</a>
+      <a href="#" class="nav-item">&#9881; 설정</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="battle-main">
+      <!-- Header -->
+      <header class="battle-header">
+        <div class="quest-info">
+          <span class="badge badge-accent">QUEST #03</span>
+          <h1 class="text-h2">마케팅 전략 수립</h1>
+        </div>
+        <div class="timer">14:32</div>
+      </header>
+
+      <!-- Battle Area: Human vs AI -->
+      <section class="battle-area">
+        <!-- Human Panel -->
+        <div class="panel panel-human">
+          <div class="panel-header">
+            <div class="panel-team">
+              <div class="team-icon team-icon-human">&#128100;</div>
+              <div>
+                <div class="text-overline" style="color: var(--color-human);">HUMAN</div>
+                <div class="text-h4">김민수</div>
+              </div>
+            </div>
+            <div class="panel-score score-human">87</div>
+          </div>
+          <div class="panel-content">
+            <div class="answer-block answer-block--active">
+              타겟 고객층인 20-35세 직장인을 위한 마케팅 전략을 수립합니다.
+              핵심 채널은 Instagram과 LinkedIn으로, B2C와 B2B를 동시에 공략합니다.
+              <br><br>
+              1단계: 인지도 확보 - SNS 콘텐츠 마케팅<br>
+              2단계: 리드 생성 - 무료 체험 프로그램<br>
+              3단계: 전환 - 할인 프로모션 + 추천인 제도
+            </div>
+            <div class="answer-typing">&#9998; 작성 중...</div>
+          </div>
+        </div>
+
+        <!-- VS Divider -->
+        <div class="vs-divider">
+          <div class="vs-badge">VS</div>
+        </div>
+
+        <!-- AI Panel -->
+        <div class="panel panel-ai">
+          <div class="panel-header">
+            <div class="panel-team">
+              <div class="team-icon team-icon-ai">&#129302;</div>
+              <div>
+                <div class="text-overline" style="color: var(--color-ai);">AI</div>
+                <div class="text-h4">GPT-4o</div>
+              </div>
+            </div>
+            <div class="panel-score score-ai">92</div>
+          </div>
+          <div class="panel-content">
+            <div class="answer-block">
+              Based on market analysis, I recommend a multi-channel
+              marketing strategy targeting young professionals (25-34):
+              <br><br>
+              Phase 1: Content Marketing via LinkedIn thought leadership<br>
+              Phase 2: Performance Marketing - Google Ads + Meta Ads<br>
+              Phase 3: Community Building - Slack/Discord user groups<br>
+              Phase 4: Retention - Personalized email sequences
+            </div>
+            <div class="answer-typing" style="color: var(--color-ai);">&#9679; AI 응답 완료</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Progress Metrics -->
+      <section class="progress-section">
+        <div class="metric-card">
+          <div class="metric-label">정확성</div>
+          <div class="metric-bar">
+            <span class="badge badge-human" style="min-width: 48px; text-align: center;">87%</span>
+            <div class="metric-bar-track">
+              <div class="metric-bar-fill-human" style="width: 87%;"></div>
+            </div>
+          </div>
+          <div class="metric-bar" style="margin-top: var(--space-2);">
+            <span class="badge badge-ai" style="min-width: 48px; text-align: center;">92%</span>
+            <div class="metric-bar-track">
+              <div class="metric-bar-fill-ai" style="width: 92%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">창의성</div>
+          <div class="metric-bar">
+            <span class="badge badge-human" style="min-width: 48px; text-align: center;">94%</span>
+            <div class="metric-bar-track">
+              <div class="metric-bar-fill-human" style="width: 94%;"></div>
+            </div>
+          </div>
+          <div class="metric-bar" style="margin-top: var(--space-2);">
+            <span class="badge badge-ai" style="min-width: 48px; text-align: center;">78%</span>
+            <div class="metric-bar-track">
+              <div class="metric-bar-fill-ai" style="width: 78%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">실행 가능성</div>
+          <div class="metric-bar">
+            <span class="badge badge-human" style="min-width: 48px; text-align: center;">81%</span>
+            <div class="metric-bar-track">
+              <div class="metric-bar-fill-human" style="width: 81%;"></div>
+            </div>
+          </div>
+          <div class="metric-bar" style="margin-top: var(--space-2);">
+            <span class="badge badge-ai" style="min-width: 48px; text-align: center;">89%</span>
+            <div class="metric-bar-track">
+              <div class="metric-bar-fill-ai" style="width: 89%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

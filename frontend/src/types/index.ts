@@ -46,7 +46,7 @@ export interface User {
   readonly monthlyScores: ReadonlyArray<MonthlyScore>
 }
 
-export type UserRole = 'learner' | 'admin' | 'facilitator'
+export type UserRole = 'learner' | 'admin'
 
 export interface Badge {
   readonly id: string

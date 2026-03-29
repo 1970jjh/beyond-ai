@@ -7,17 +7,12 @@ import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { ProgressBar } from '../components/ui/ProgressBar'
 import { QUEST_CONFIGS } from '../data/quests'
-import { generateAiResponse, evaluateSubmissions } from '../engine/battleEngine'
 import { battleApi } from '../services/api'
 import type { BattleResponseData } from '../services/api'
 import { useAuthStore } from '../stores/authStore'
 import type { AiProcessStep, BattleScores } from '../types'
 
 type BattlePhase = 'select' | 'task' | 'writing' | 'ai_working' | 'results'
-
-function hasApiToken(): boolean {
-  return !!localStorage.getItem('access_token')
-}
 
 function mapApiBattleToScores(battle: BattleResponseData): BattleScores | null {
   if (!battle.human_scores || !battle.ai_scores) return null
@@ -81,7 +76,7 @@ export function BattlePage() {
     return () => { if (timerRef.current) clearInterval(timerRef.current) }
   }, [timerActive, timeRemaining])
 
-  const startBattleApi = useCallback(async () => {
+  const startBattle = useCallback(async () => {
     if (!quest) return
     setBattleError(null)
 
@@ -142,52 +137,7 @@ export function BattlePage() {
     }
   }, [quest])
 
-  const startBattleLocal = useCallback(() => {
-    if (!quest) return
-    setPhase('writing')
-    setTimeRemaining(quest.timeLimit)
-    setTimerActive(true)
-
-    const initialSteps: AiProcessStep[] = quest.aiSteps.map((s, i) => ({
-      id: `s${i}`,
-      label: s.label,
-      description: s.description,
-      status: 'pending' as const,
-      output: null,
-      timestamp: new Date().toISOString(),
-    }))
-    setAiSteps(initialSteps)
-
-    quest.aiSteps.forEach((_, i) => {
-      setTimeout(() => {
-        setAiSteps(prev => prev.map((step, j) => ({
-          ...step,
-          status: j < i ? 'done' as const : j === i ? 'active' as const : step.status,
-          output: j < i ? `완료: ${step.label}` : step.output,
-        })))
-      }, (i + 1) * 3000)
-    })
-
-    const totalAiTime = quest.aiSteps.length * 3000 + 2000
-    setTimeout(() => {
-      setAiSteps(prev => prev.map(step => ({
-        ...step,
-        status: 'done' as const,
-        output: `완료: ${step.label}`,
-      })))
-      setAiText(generateAiResponse(quest.id))
-    }, totalAiTime)
-  }, [quest])
-
-  const startBattle = useCallback(() => {
-    if (hasApiToken()) {
-      startBattleApi()
-    } else {
-      startBattleLocal()
-    }
-  }, [startBattleApi, startBattleLocal])
-
-  const handleSubmitApi = useCallback(async () => {
+  const handleSubmit = useCallback(async () => {
     if (!quest || !submission.trim() || !battleId) return
     setTimerActive(false)
     sseCleanupRef.current?.()
@@ -231,66 +181,6 @@ export function BattlePage() {
       setTimerActive(true)
     }
   }, [quest, submission, battleId, updateScore, addBadge])
-
-  const handleSubmitLocal = useCallback(() => {
-    if (!quest || !submission.trim()) return
-    setTimerActive(false)
-    setPhase('ai_working')
-
-    const fullAiText = aiText || generateAiResponse(quest.id)
-
-    let charIndex = 0
-    const typeInterval = setInterval(() => {
-      charIndex += 3
-      if (charIndex >= fullAiText.length) {
-        setAiDisplayText(fullAiText)
-        clearInterval(typeInterval)
-
-        setTimeout(() => {
-          const result = evaluateSubmissions(submission, fullAiText, quest.id)
-          const battleScores: BattleScores = {
-            quality: result.quality,
-            creativity: result.creativity,
-            execution: result.execution,
-            efficiency: result.efficiency,
-          }
-          setScores(battleScores)
-
-          const w = result.totalHuman > result.totalAi ? 'human' :
-            result.totalHuman < result.totalAi ? 'ai' : 'draw'
-          setWinner(w)
-          setPhase('results')
-
-          const xp = w === 'human' ? 250 : w === 'draw' ? 150 : 100
-          updateScore(xp)
-
-          if (w === 'human') {
-            addBadge({ id: `badge-${quest.id}`, name: `${quest.title} 정복자`, icon: '🎯', tier: 'gold' })
-          }
-
-          try {
-            const saved = JSON.parse(localStorage.getItem('beyond-ai-results') || '[]')
-            saved.push({
-              questId: quest.id, month: quest.month, title: quest.title,
-              humanScore: result.totalHuman, aiScore: result.totalAi,
-              winner: w, completedAt: new Date().toISOString(),
-            })
-            localStorage.setItem('beyond-ai-results', JSON.stringify(saved))
-          } catch { /* ignore */ }
-        }, 1000)
-      } else {
-        setAiDisplayText(fullAiText.slice(0, charIndex))
-      }
-    }, 10)
-  }, [quest, submission, aiText, updateScore, addBadge])
-
-  const handleSubmit = useCallback(() => {
-    if (hasApiToken() && battleId) {
-      handleSubmitApi()
-    } else {
-      handleSubmitLocal()
-    }
-  }, [handleSubmitApi, handleSubmitLocal, battleId])
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 

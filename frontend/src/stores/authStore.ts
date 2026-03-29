@@ -21,7 +21,6 @@ interface AuthState {
 }
 
 interface AuthActions {
-  loginLocal: (name: string, role: UserRole) => void
   loginWithApi: (tenantSlug: string, email: string, password: string) => Promise<boolean>
   registerWithApi: (tenantSlug: string, email: string, displayName: string, password: string) => Promise<boolean>
   fetchMe: () => Promise<void>
@@ -62,21 +61,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isAuthenticated: !!savedUser,
   isLoading: false,
   authError: null,
-
-  loginLocal: (name, role) => {
-    const user: LocalUser = {
-      id: crypto.randomUUID(),
-      name,
-      email: `${name.toLowerCase().replace(/\s/g, '')}@beyond-ai.kr`,
-      role,
-      title: role === 'admin' ? '관리자' : '학습자',
-      totalScore: 0,
-      badges: [],
-      teamId: null,
-    }
-    saveUser(user)
-    set({ user, isAuthenticated: true, authError: null })
-  },
 
   loginWithApi: async (tenantSlug, email, password) => {
     set({ isLoading: true, authError: null })

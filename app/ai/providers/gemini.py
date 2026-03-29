@@ -33,10 +33,11 @@ class GeminiProvider(AIProvider):
 
     async def generate(self, request: AIRequest) -> AIResponse:
         payload = _build_payload(request)
-        url = f"{GEMINI_API_URL}/{self._model}:generateContent?key={self._api_key}"
+        url = f"{GEMINI_API_URL}/{self._model}:generateContent"
+        headers = {"x-goog-api-key": self._api_key}
 
         async with httpx.AsyncClient(timeout=120) as client:
-            resp = await client.post(url, json=payload)
+            resp = await client.post(url, json=payload, headers=headers)
             resp.raise_for_status()
             data = resp.json()
 
@@ -52,7 +53,8 @@ class GeminiProvider(AIProvider):
 
     async def stream(self, request: AIRequest) -> AsyncIterator[StreamChunk]:
         payload = _build_payload(request)
-        url = f"{GEMINI_API_URL}/{self._model}:streamGenerateContent?alt=sse&key={self._api_key}"
+        url = f"{GEMINI_API_URL}/{self._model}:streamGenerateContent?alt=sse"
+        headers = {"x-goog-api-key": self._api_key}
 
         phases = ("understanding", "analyzing", "generating", "evaluating", "refining")
         phase_titles = ("과제 이해", "데이터 분석", "초안 생성", "자체 평가", "최종 정제")
@@ -71,7 +73,7 @@ class GeminiProvider(AIProvider):
             )
 
         async with httpx.AsyncClient(timeout=120) as client:
-            async with client.stream("POST", url, json=payload) as resp:
+            async with client.stream("POST", url, json=payload, headers=headers) as resp:
                 resp.raise_for_status()
                 async for line in resp.aiter_lines():
                     if not line.startswith("data: "):
